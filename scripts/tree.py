@@ -38,6 +38,8 @@ class Tree:
 		#change y by dscaleby
 		self.y += 6*self.dscaleby
 		self.scaleby += self.dscaleby
+		#self.dscaleby = street.speed*10
+		#No module named 'player.py'; 'player' is not a packageself.dx = (410*street.speed - street.tilt*street.speed)
 		DISPLAY.blit(self.image, (self.x,self.y))
 		self.width = int(9*self.scaleby)
 		self.height = int(12*self.scaleby)

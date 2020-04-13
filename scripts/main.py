@@ -4,6 +4,7 @@ import numpy as np
 import random
 import time
 from player import Player
+from trackgenerator import TrackGenerator
 from road import Road
 from tree import Tree
 
@@ -14,7 +15,8 @@ def main():
 	pygame.init()
 	pygame.display.set_caption('PyRacer')
 	tilt = 0
-
+	trackgen = TrackGenerator()
+	trackgen.generate()
 	ingame = True
 	DISPLAY = pygame.display.set_mode((WIDTH,HEIGHT),0,32)
 	WHITE = (255, 255, 255)
@@ -24,7 +26,8 @@ def main():
 	background = pygame.transform.scale(pygame.image.load('images/backgrounds/background3.png'), (WIDTH,HEIGHT))
 
 
-	street = Road()
+
+	street = Road(1)
 
 	#change first number to change car
 	racer = Player(1, 30, 30, WIDTH/2, 7*HEIGHT/8 - 20)
@@ -35,17 +38,18 @@ def main():
 		tree[i] = Tree(0,0,0,WIDTH/2-20,HEIGHT/2+45)
 		tree[i+1] = Tree(1,0,0,WIDTH/2+10,HEIGHT/2+45)
 		i += 2
-	print(tree)
+	#print(tree)
 
 
 	while True:
-		DISPLAY.blit(background, (0,-100))
-		print(street.distance)
+		DISPLAY.blit(background, (0+street.tilt,-100))
+		#print(street.distance)
 
 		street.readtrack()
 		street.update()
-		tree[street.objectset].update()
-		tree[street.objectset+1].update()
+		#for treenum in range(street.objectset+1):
+		tree[0].update()
+		tree[1].update()
 		racer.move()
 		font = pygame.font.Font('freesansbold.ttf', 32)
 		text = font.render(('SPEED: ' + str(round((street.speed/6.5)*18000)) + ' km/h'), True, WHITE, BLACK)
@@ -62,12 +66,13 @@ def main():
 				racer.dxs = -2*((street.speed+.3)*5)
 		else:
 			racer.dxs = 0
-
-		tree[street.objectset].dscaleby = street.speed*10
-		tree[street.objectset].dx = (410*street.speed - street.tilt*street.speed)
-		tree[street.objectset+1].dscaleby = street.speed*10
-		tree[street.objectset+1].dx = (340*street.speed + street.tilt*street.speed)
-
+		'''
+		for treenum in range(street.objectset+1):
+			tree[treenum].dscaleby = street.speed*10
+			tree[treenum].dx = (410*street.speed - street.tilt*street.speed)
+			tree[treenum+1].dscaleby = street.speed*10
+			tree[treenum+1].dx = (340*street.speed + street.tilt*street.speed)
+		'''
 
 
 		for event in pygame.event.get():
