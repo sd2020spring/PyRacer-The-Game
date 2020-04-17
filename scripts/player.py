@@ -6,12 +6,12 @@ class Player:
 				img1 = pygame.transform.scale(pygame.image.load('images/player/straight1.png'), (116, 64)),
 				imgleft1 = pygame.transform.scale(pygame.image.load('images/player/left1.png'), (116, 64)),
 				imgright1 = pygame.transform.scale(pygame.image.load('images/player/right1.png'), (116, 64)),
-				img2 = pygame.transform.scale(pygame.image.load('images/player/straight2.png'), (106, 70)),
-				imgleft2 = pygame.transform.scale(pygame.image.load('images/player/left2.png'), (106, 70)),
-				imgright2 = pygame.transform.scale(pygame.image.load('images/player/right2.png'), (106, 70)),
-				img3 = pygame.transform.scale(pygame.image.load('images/player/straight3.png'), (108, 96)),
-				imgleft3 = pygame.transform.scale(pygame.image.load('images/player/left3.png'), (108, 96)),
-				imgright3 = pygame.transform.scale(pygame.image.load('images/player/right3.png'), (108, 96)), dxs = 0):
+				img2 = pygame.transform.scale(pygame.image.load('images/player/straight2.png'), (116, 85)),
+				imgleft2 = pygame.transform.scale(pygame.image.load('images/player/left2.png'), (116, 85)),
+				imgright2 = pygame.transform.scale(pygame.image.load('images/player/right2.png'), (116, 85)),
+				img3 = pygame.transform.scale(pygame.image.load('images/player/straight3.png'), (128, 116)),
+				imgleft3 = pygame.transform.scale(pygame.image.load('images/player/left3.png'), (128, 116)),
+				imgright3 = pygame.transform.scale(pygame.image.load('images/player/right3.png'), (128, 116)), dxs = 0):
 		#hitbox width
 		self.width = width
 		#hitbox height
@@ -47,9 +47,9 @@ class Player:
 		#number of bugs the self has eaten
 		self.dxs = 0
 	def move(self):
-		 #change x by dx
+		#change x by dx
 		self.x += self.dx + self.dxs
-		 #change y by dy
+		#change y by dy
 		self.y += self.dy
 		#moves the hitbox so that it always corresponds to the position
 		self.hitbox = (self.x+self.xadjust, self.y+self.yadjust, self.width, self.height)

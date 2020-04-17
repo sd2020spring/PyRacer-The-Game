@@ -13,7 +13,11 @@ class TrackGenerator:
 		self.sidelines = ''
 		self.streetobjects = ''
 	def generate(self):
-		for trackpieces in range(25):
+		self.road += self.right
+		self.sidelines += self.blank
+		self.streetobjects += self.blank
+
+		for trackpieces in range(10):
 			self.road += self.straight
 			self.sidelines += '1'
 			self.streetobjects += '1'

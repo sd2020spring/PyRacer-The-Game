@@ -3,55 +3,91 @@ from pygame.locals import *
 import numpy as np
 from trackgenerator import TrackGenerator
 import time
-import string
 
 WIDTH = 800
 HEIGHT = 500
-DGRAY = (25,25,25)
-LGRAY = (50,50,50)
-BEIGE = (225,225,160)
-DBEIGE = (205,205,120)
 DISPLAY = pygame.display.set_mode((WIDTH,HEIGHT),0,32)
 
 
 class Road:
-	def __init__(self, track = 0, width = 1000, height = 1, x = 0, y = 0):
-		self.roadwidth = width
-		self.roadheight = height
+	def __init__(self, track = 0, x = 0, y = 0):
+		#track 0 = track, track 1 = countryside, track 2 = tundra, track 3 = desert, track 4 = city, track 5 = outerspace
+		if track == 0:
+			self.ROAD = (50,50,50)
+			self.GROUND1 = (150,225,50)
+			self.GROUND2 = (100,205,20)
+			self.SIDES1 = (255,0,0)
+			self.SIDES2 = (255,255,255)
+		elif track == 1:
+			self.ROAD = (205,205,120)
+			self.GROUND1 = (80,150,0)
+			self.GROUND2 = (60,120,0)
+			self.SIDES1 = (238,224,0)
+			self.SIDES2 = (187,176,0)
+		elif track == 2:
+			self.ROAD = (200,200,200)
+			self.GROUND1 = (200,220,220)
+			self.GROUND2 = (180,200,200)
+			self.SIDES1 = (250,250,255)
+			self.SIDES2 = (240,240,240)
+		elif track == 3:
+			self.ROAD = (200,200,150)
+			self.GROUND1 = (225,225,160)
+			self.GROUND2 = (205,205,120)
+			self.SIDES1 = (160,160,120)
+			self.SIDES2 = (150,150,100)
+		elif track == 4:
+			self.ROAD = (25,25,25)
+			self.GROUND1 = (5,5,5)
+			self.GROUND2 = (0,0,0)
+			self.SIDES1 = (100,100,100)
+			self.SIDES2 = (50,50,50)
+		elif track == 5:
+			self.ROAD = (5,5,5)
+			self.GROUND1 = (0,0,0)
+			self.GROUND2 = (0,0,0)
+			self.SIDES1 = (255,255,50)
+			self.SIDES2 = (0,0,0)
+
+		self.roadwidth = 1000
+		self.sidewidth = 1000
 		self.road = np.zeros(200, dtype=object)
 		self.ground = np.zeros(100, dtype=object)
+		self.sidelines = np.zeros(100, dtype=object)
 		self.tilt = 0
 		self.distance = 0
 		self.accelerate = False
-		self.reverse = False
 		self.speed = 0
 		self.sp = 0
 		self.linecolor = 0
-		self.objectset = 0
-		filename = 'tracks/track' + str(track) + '.txt'
+		filename = 'tracks/track' + str(1) + '.txt'
 		with open(filename) as file:
 			self.trackroad = file.readline()
-			self.tracksidelines = file.readline()
-			self.trackstreetobjects = file.readline()
 		file.close()
 
 	def update(self):
 		for roadslice in range(100):
 			if self.linecolor % 2 != 0:
-				self.ground[roadslice] = pygame.draw.rect(DISPLAY, BEIGE, (-100, HEIGHT-2*(roadslice), 1000, 3))
+				self.ground[roadslice] = pygame.draw.rect(DISPLAY, self.GROUND1, (-100, HEIGHT-2*(roadslice), 1000, 2))
 			if self.linecolor % 2 == 0:
-				self.ground[roadslice] = pygame.draw.rect(DISPLAY, DBEIGE, (-100, HEIGHT-2*(roadslice), 1000, 3))
+				self.ground[roadslice] = pygame.draw.rect(DISPLAY, self.GROUND2, (-100, HEIGHT-2*(roadslice), 1000, 2))
 			roadslice+=1
 			self.linecolor += 1
 		roadslice = 0
-		for roadslice in range(200):
+		for roadslice in range(100):
 			if self.linecolor % 2 != 0:
-				self.road[roadslice] = pygame.draw.rect(DISPLAY, DGRAY, (((WIDTH/2)-(self.roadwidth/2) + (self.tilt*((roadslice*roadslice)/5000))), HEIGHT-(roadslice), int(self.roadwidth), int(self.roadheight)))
+				self.road[roadslice] = pygame.draw.rect(DISPLAY, self.SIDES1, (((WIDTH/2)-(self.sidewidth/2) + (2*self.tilt*((2*roadslice*roadslice)/5000))), HEIGHT-2*(roadslice), int(self.sidewidth), 2))
 			if self.linecolor % 2 == 0:
-				self.road[roadslice] = pygame.draw.rect(DISPLAY, LGRAY, (((WIDTH/2)-(self.roadwidth/2) + (self.tilt*((roadslice*roadslice)/5000))), HEIGHT-(roadslice), int(self.roadwidth), int(self.roadheight)))
-			self.roadwidth-=5
+				self.road[roadslice] = pygame.draw.rect(DISPLAY, self.SIDES2, (((WIDTH/2)-(self.sidewidth/2) + (2*self.tilt*((2*roadslice*roadslice)/5000))), HEIGHT-2*(roadslice), int(self.sidewidth), 2))
+			self.sidewidth-=12
 			roadslice+=1
 			self.linecolor += 1
+		self.sidewidth = 1200
+		roadslice = 0
+		for roadslice in range(200):
+			self.road[roadslice] = pygame.draw.rect(DISPLAY, self.ROAD, (((WIDTH/2)-(self.roadwidth/2) + (self.tilt*((roadslice*roadslice)/5000))), HEIGHT-(roadslice), int(self.roadwidth), 1))
+			self.roadwidth-=5
+			roadslice+=1
 		self.roadwidth=1000
 
 	def readtrack(self):
@@ -62,8 +98,7 @@ class Road:
 		if self.speed <= 0:
 			self.speed = 0
 		elif self.speed >= .07:
-			self.speed = .07
-
+			self.speed = .068
 		time.sleep(.1 - self.speed)
 		if self.speed > 0:
 			if self.trackroad[self.distance] == '3':
@@ -86,8 +121,5 @@ class Road:
 				self.tilt += 0
 				self.linecolor += 1
 				self.update()
-
 			if self.distance < len(self.trackroad):
 				self.distance += 1
-				if self.distance % 5 == 0:
-					self.objectset += 1
