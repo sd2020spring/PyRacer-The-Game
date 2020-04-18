@@ -23,8 +23,9 @@ def main():
     BLACK = (0,0,0)
     DISPLAY.fill(BLACK)
     frame = 1
-    course = 0
+    course = 1
     car = 1
+    startscreen = True
     carfont = pygame.font.Font('fonts/Retron2000.ttf', 32)
     coursefont = pygame.font.Font('fonts/Retron2000.ttf', 48)
     ingamefontbig = pygame.font.Font('fonts/Retron2000.ttf', 32)
@@ -33,6 +34,8 @@ def main():
 
     while True:
         if ingame == False:
+            if frame > 1:
+                startscreen = False
             carimg ='images/player/front' + str(car) + '.png'
             menuslide = 'images/menuframes/frame' + str(frame) + '.png'
             bgimage = 'images/backgrounds/bg' + str(course) + '.png'
@@ -53,17 +56,17 @@ def main():
                 caryscale = 246
                 caryadjust = 118
                 carname = 'Big Rig'
-            if course == 0:
+            if course == 1:
                 coursename = 'PyRacer Speedway'
-            elif course == 1:
-                coursename = 'Countryside Backroads'
             elif course == 2:
-                coursename = 'Tundra Expedition'
+                coursename = 'Countryside Backroads'
             elif course == 3:
-                coursename = 'Desert Caravan'
+                coursename = 'Tundra Expedition'
             elif course == 4:
-                coursename = 'City Outskirts'
+                coursename = 'Desert Caravan'
             elif course == 5:
+                coursename = 'City Outskirts'
+            elif course == 6:
                 coursename = 'Stellar Highway'
 
             cartitle = carfont.render(carname, True, WHITE, BLACK)
@@ -86,6 +89,9 @@ def main():
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
+                    if frame == 1 and startscreen == True:
+                        if event.key != (pygame.K_LSHIFT or pygame.K_RSHIFT):
+                            frame = 2
                     if event.key == pygame.K_LEFT:
                         if frame == 2:
                             car -= 1
@@ -93,8 +99,8 @@ def main():
                                 car = 1
                         elif frame == 3:
                             course -= 1
-                            if course <= 0:
-                                course = 0
+                            if course <= 1:
+                                course = 1
                     if event.key == pygame.K_RIGHT:
                         if frame == 2:
                             car += 1
@@ -102,19 +108,17 @@ def main():
                                 car = 3
                         elif frame == 3:
                             course += 1
-                            if course >= 5:
-                                course = 5
-                    if event.key == pygame.K_a:
-                        if frame == 1:
-                            frame = 2
-                        elif frame == 2:
+                            if course >= 6:
+                                course = 6
+                    if event.key == pygame.K_RETURN and startscreen == False:
+                        if frame == 2:
                             frame = 3
                         elif frame == 3:
                             window = pygame.transform.scale(pygame.image.load(bgimage), (1000,302))
                             street = Road(course)
                             racer = Player(car, 30, 30, WIDTH/2, 7*HEIGHT/8 - 20)
                             ingame = True
-                    if event.key == pygame.K_b:
+                    if event.key == (pygame.K_LSHIFT or pygame.K_RSHIFT):
                         if frame == 2:
                             frame = 1
                         elif frame == 3:
@@ -122,7 +126,7 @@ def main():
 
         else:
             DISPLAY.blit(window, (0+2*street.tilt-100,0))
-            speedtext = ingamefontbig.render((str(round((street.speed/6.9)*30000)) + ' km/h'), True, WHITE, BLACK)
+            speedtext = ingamefontbig.render((str(round((street.speed/6.9)*25000)) + ' km/h'), True, WHITE, BLACK)
             completiontext = ingamefontsmall.render('COMPLETION: ' + (str(round((street.distance/5))) + '%'), True, WHITE, BLACK)
             conditiontext = ingamefontsmall.render('CONDITION: ' + (str(round(100)) + ' %'), True, WHITE, BLACK)
             speedbox = speedtext.get_rect()
@@ -140,11 +144,11 @@ def main():
             racer.move()
 
             if car == 2:
-                if street.speed > .05:
-                    street.speed = .049
+                if street.speed > .07:
+                    street.speed = .069
             if car == 3:
-                if street.speed > .04:
-                    street.speed = .039
+                if street.speed > .06:
+                    street.speed = .059
 
             if street.accelerate:
                 if street.tilt == 0:
@@ -163,11 +167,11 @@ def main():
                 if event.type == pygame.KEYDOWN:
                     #player moves left when left key is pressed
                     if event.key == pygame.K_LEFT:
-                        racer.dx = -5
+                        racer.dx = -5*(1+street.speed)
                         racer.image = racer.imgleft
                     #player moves right when right key is pressed
                     if event.key == pygame.K_RIGHT:
-                        racer.dx = 5
+                        racer.dx = 5*(1+street.speed)
                         racer.image = racer.imgright
                     #player moves up when up key is pressed
                     if event.key == pygame.K_UP:

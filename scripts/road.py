@@ -10,39 +10,39 @@ DISPLAY = pygame.display.set_mode((WIDTH,HEIGHT),0,32)
 
 
 class Road:
-	def __init__(self, track = 0, x = 0, y = 0):
-		#track 0 = track, track 1 = countryside, track 2 = tundra, track 3 = desert, track 4 = city, track 5 = outerspace
-		if track == 0:
+	def __init__(self, track = 1, x = 0, y = 0):
+		#track 1 = speedway, track 2 = countryside, track 3 = tundra, track 4 = desert, track 5 = city, track 6 = outerspace
+		if track == 1:
 			self.ROAD = (50,50,50)
 			self.GROUND1 = (150,225,50)
 			self.GROUND2 = (100,205,20)
 			self.SIDES1 = (255,0,0)
 			self.SIDES2 = (255,255,255)
-		elif track == 1:
+		elif track == 2:
 			self.ROAD = (205,205,120)
 			self.GROUND1 = (80,150,0)
 			self.GROUND2 = (60,120,0)
 			self.SIDES1 = (238,224,0)
 			self.SIDES2 = (187,176,0)
-		elif track == 2:
+		elif track == 3:
 			self.ROAD = (200,200,200)
 			self.GROUND1 = (200,220,220)
 			self.GROUND2 = (180,200,200)
 			self.SIDES1 = (250,250,255)
 			self.SIDES2 = (240,240,240)
-		elif track == 3:
+		elif track == 4:
 			self.ROAD = (200,200,150)
 			self.GROUND1 = (225,225,160)
 			self.GROUND2 = (205,205,120)
 			self.SIDES1 = (160,160,120)
 			self.SIDES2 = (150,150,100)
-		elif track == 4:
+		elif track == 5:
 			self.ROAD = (25,25,25)
 			self.GROUND1 = (5,5,5)
 			self.GROUND2 = (0,0,0)
 			self.SIDES1 = (100,100,100)
 			self.SIDES2 = (50,50,50)
-		elif track == 5:
+		elif track == 6:
 			self.ROAD = (5,5,5)
 			self.GROUND1 = (0,0,0)
 			self.GROUND2 = (0,0,0)
@@ -60,7 +60,7 @@ class Road:
 		self.speed = 0
 		self.sp = 0
 		self.linecolor = 0
-		filename = 'tracks/track' + str(1) + '.txt'
+		filename = 'tracks/track' + str(track) + '.txt'
 		with open(filename) as file:
 			self.trackroad = file.readline()
 		file.close()
@@ -97,8 +97,8 @@ class Road:
 		self.speed += self.sp
 		if self.speed <= 0:
 			self.speed = 0
-		elif self.speed >= .07:
-			self.speed = .068
+		elif self.speed >= .08:
+			self.speed = .079
 		time.sleep(.1 - self.speed)
 		if self.speed > 0:
 			if self.trackroad[self.distance] == '3':
