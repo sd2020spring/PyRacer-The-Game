@@ -12,6 +12,8 @@ DISPLAY = pygame.display.set_mode((WIDTH,HEIGHT),0,32)
 class Road:
 	def __init__(self, track = 1, x = 0, y = 0):
 		#track 1 = speedway, track 2 = countryside, track 3 = tundra, track 4 = desert, track 5 = city, track 6 = outerspace
+		self.starttime = time.clock()
+		self.currenttime = time.clock()
 		if track == 1:
 			self.ROAD = (50,50,50)
 			self.GROUND1 = (150,225,50)
@@ -48,7 +50,6 @@ class Road:
 			self.GROUND2 = (0,0,0)
 			self.SIDES1 = (255,255,50)
 			self.SIDES2 = (0,0,0)
-
 		self.roadwidth = 1000
 		self.sidewidth = 1000
 		self.road = np.zeros(200, dtype=object)
@@ -60,6 +61,7 @@ class Road:
 		self.speed = 0
 		self.sp = 0
 		self.linecolor = 0
+		self.lapnum = 1
 		filename = 'tracks/track' + str(track) + '.txt'
 		with open(filename) as file:
 			self.trackroad = file.readline()
@@ -91,35 +93,37 @@ class Road:
 		self.roadwidth=1000
 
 	def readtrack(self):
-		if self.distance >= len(self.trackroad):
-			self.distance = 0
-			print('lap')
-		self.speed += self.sp
-		if self.speed <= 0:
-			self.speed = 0
-		elif self.speed >= .08:
-			self.speed = .079
-		time.sleep(.1 - self.speed)
-		if self.speed > 0:
-			if self.trackroad[self.distance] == '3':
-				self.tilt += 0
-				self.linecolor += 1
-				self.update()
-			if self.trackroad[self.distance] == '2':
-				self.tilt -= 1
-				self.linecolor += 1
-				self.update()
-			if self.trackroad[self.distance] == '4':
-				self.tilt += 1
-				self.linecolor += 1
-				self.update()
-			if self.trackroad[self.distance] == '1':
-				self.tilt -= 0
-				self.linecolor += 1
-				self.update()
-			if self.trackroad[self.distance] == '5':
-				self.tilt += 0
-				self.linecolor += 1
-				self.update()
-			if self.distance < len(self.trackroad):
-				self.distance += 1
+		self.currenttime = time.clock()-self.starttime
+		if (self.currenttime-self.starttime) > (.09-self.speed):
+			if self.distance >= len(self.trackroad):
+				self.distance = 0
+				self.lapnum += 1
+			self.speed += self.sp
+			if self.speed <= 0:
+				self.speed = 0
+			elif self.speed >= .08:
+				self.speed = .079
+			elif self.speed > 0:
+				if self.trackroad[self.distance] == '3':
+					self.tilt += 0
+					self.linecolor += 1
+					self.update()
+				if self.trackroad[self.distance] == '2':
+					self.tilt -= 1
+					self.linecolor += 1
+					self.update()
+				if self.trackroad[self.distance] == '4':
+					self.tilt += 1
+					self.linecolor += 1
+					self.update()
+				if self.trackroad[self.distance] == '1':
+					self.tilt -= 0
+					self.linecolor += 1
+					self.update()
+				if self.trackroad[self.distance] == '5':
+					self.tilt += 0
+					self.linecolor += 1
+					self.update()
+				if self.distance < len(self.trackroad):
+					self.distance += 1
+			self.starttime = self.currenttime

@@ -7,6 +7,7 @@ import datetime
 from player import Player
 from trackgenerator import TrackGenerator
 from road import Road
+from laserbeam import Laserbeam
 
 WIDTH = 800
 HEIGHT = 500
@@ -26,11 +27,13 @@ def main():
     course = 1
     car = 1
     startscreen = True
+    condition = 100
     carfont = pygame.font.Font('fonts/Retron2000.ttf', 32)
     coursefont = pygame.font.Font('fonts/Retron2000.ttf', 48)
     ingamefontbig = pygame.font.Font('fonts/Retron2000.ttf', 32)
     ingamefontsmall = pygame.font.Font('fonts/Retron2000.ttf', 16)
-
+    pygame.mixer.music.load('music/music0.mp3')
+    pygame.mixer.music.play(-1)
 
     while True:
         if ingame == False:
@@ -94,22 +97,18 @@ def main():
                             frame = 2
                     if event.key == pygame.K_LEFT:
                         if frame == 2:
-                            car -= 1
-                            if car <= 1:
-                                car = 1
+                            if car > 1:
+                                car -= 1
                         elif frame == 3:
-                            course -= 1
-                            if course <= 1:
-                                course = 1
+                            if course > 1:
+                                course -= 1
                     if event.key == pygame.K_RIGHT:
                         if frame == 2:
-                            car += 1
-                            if car >= 3:
-                                car = 3
+                            if car < 3:
+                                car += 1
                         elif frame == 3:
-                            course += 1
-                            if course >= 6:
-                                course = 6
+                            if course < 6:
+                                course += 1
                     if event.key == pygame.K_RETURN and startscreen == False:
                         if frame == 2:
                             frame = 3
@@ -117,6 +116,10 @@ def main():
                             window = pygame.transform.scale(pygame.image.load(bgimage), (1000,302))
                             street = Road(course)
                             racer = Player(car, 30, 30, WIDTH/2, 7*HEIGHT/8 - 20)
+                            lasers = Laserbeam(course)
+                            pygame.mixer.music.stop()
+                            pygame.mixer.music.load('music/music' + str(course) + '.mp3')
+                            pygame.mixer.music.play()
                             ingame = True
                     if event.key == (pygame.K_LSHIFT or pygame.K_RSHIFT):
                         if frame == 2:
@@ -127,8 +130,8 @@ def main():
         else:
             DISPLAY.blit(window, (0+2*street.tilt-100,0))
             speedtext = ingamefontbig.render((str(round((street.speed/6.9)*25000)) + ' km/h'), True, WHITE, BLACK)
-            completiontext = ingamefontsmall.render('COMPLETION: ' + (str(round((street.distance/5))) + '%'), True, WHITE, BLACK)
-            conditiontext = ingamefontsmall.render('CONDITION: ' + (str(round(100)) + ' %'), True, WHITE, BLACK)
+            completiontext = ingamefontsmall.render('[COMPLETION: ' + (str(round((street.distance/len(street.trackroad))*100)) + '% ] [LAP ' + str(street.lapnum) + '/3]'), True, WHITE, BLACK)
+            conditiontext = ingamefontsmall.render('CONDITION: ' + (str(round(condition)) + ' %'), True, WHITE, BLACK)
             speedbox = speedtext.get_rect()
             speedbox.top = 10
             speedbox.left = 10
@@ -142,6 +145,7 @@ def main():
             street.readtrack()
             street.update()
             racer.move()
+            lasers.update()
 
             if car == 2:
                 if street.speed > .07:
@@ -154,11 +158,19 @@ def main():
                 if street.tilt == 0:
                     racer.dxs = 0
                 elif street.tilt == -1:
-                    racer.dxs = 2*((street.speed+.3)*5)
+                    racer.dxs = 2*((street.speed+.3)*.4)
                 elif street.tilt == 1:
-                    racer.dxs = -2*((street.speed+.3)*5)
+                    racer.dxs = -2*((street.speed+.3)*.4)
             else:
                 racer.dxs = 0
+            print()
+            if ((racer.x-(carxscale/4) >= lasers.x1-40 and racer.x-(carxscale/4) <= lasers.x1+40 and lasers.y1 > -(500-racer.y-(caryadjust/2)))
+                or (racer.x-(carxscale/4) >= lasers.x2-40 and racer.x-(carxscale/4) <= lasers.x2+40 and lasers.y2 > -(500-racer.y-(caryadjust/2)))
+                or (racer.x-(carxscale/4) >= lasers.x3-40 and racer.x-(carxscale/4) <= lasers.x3+40 and lasers.y3 > -(500-racer.y-(caryadjust/2)))
+                or (racer.x+(carxscale/4) >= lasers.x1-40 and racer.x+(carxscale/4) <= lasers.x1+40 and lasers.y1 > -(500-racer.y-(caryadjust/2)))
+                or (racer.x+(carxscale/4) >= lasers.x2-40 and racer.x+(carxscale/4) <= lasers.x2+40 and lasers.y2 > -(500-racer.y-(caryadjust/2)))
+                or (racer.x+(carxscale/4) >= lasers.x3-40 and racer.x+(carxscale/4) <= lasers.x3+40 and lasers.y3 > -(500-racer.y-(caryadjust/2)))):
+                condition -= .2/car
 
             for event in pygame.event.get():
                 if event.type==QUIT:
@@ -167,11 +179,11 @@ def main():
                 if event.type == pygame.KEYDOWN:
                     #player moves left when left key is pressed
                     if event.key == pygame.K_LEFT:
-                        racer.dx = -5*(1+street.speed)
+                        racer.dx = -.6*(1+street.speed)/(car*.5)
                         racer.image = racer.imgleft
                     #player moves right when right key is pressed
                     if event.key == pygame.K_RIGHT:
-                        racer.dx = 5*(1+street.speed)
+                        racer.dx = .6*(1+street.speed)/(car*.5)
                         racer.image = racer.imgright
                     #player moves up when up key is pressed
                     if event.key == pygame.K_UP:
@@ -199,6 +211,9 @@ def main():
                         street.sp = 0
 
             DISPLAY.blit(racer.image, (racer.x,racer.y-caryadjust/2))
+            DISPLAY.blit(lasers.image, (lasers.x1,lasers.y1))
+            DISPLAY.blit(lasers.image, (lasers.x2,lasers.y2))
+            DISPLAY.blit(lasers.image, (lasers.x3,lasers.y3))
             DISPLAY.blit(speedtext, speedbox)
             DISPLAY.blit(completiontext, completionbox)
             DISPLAY.blit(conditiontext, conditionbox)
