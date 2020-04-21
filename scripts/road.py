@@ -62,6 +62,7 @@ class Road:
 		self.sp = 0
 		self.linecolor = 0
 		self.lapnum = 1
+		self.startrace = True
 		filename = 'tracks/track' + str(track) + '.txt'
 		with open(filename) as file:
 			self.trackroad = file.readline()
@@ -94,7 +95,7 @@ class Road:
 
 	def readtrack(self):
 		self.currenttime = time.clock()-self.starttime
-		if (self.currenttime-self.starttime) > (.09-self.speed):
+		if (self.currenttime-self.starttime) > (.09-self.speed) or self.startrace == True:
 			if self.distance >= len(self.trackroad):
 				self.distance = 0
 				self.lapnum += 1
@@ -126,4 +127,5 @@ class Road:
 					self.update()
 				if self.distance < len(self.trackroad):
 					self.distance += 1
+			self.startrace = False	
 			self.starttime = self.currenttime

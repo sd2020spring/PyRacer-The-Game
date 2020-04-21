@@ -11,7 +11,10 @@ class Player:
 				imgright2 = pygame.transform.scale(pygame.image.load('images/player/right2.png'), (116, 85)),
 				img3 = pygame.transform.scale(pygame.image.load('images/player/straight3.png'), (128, 116)),
 				imgleft3 = pygame.transform.scale(pygame.image.load('images/player/left3.png'), (128, 116)),
-				imgright3 = pygame.transform.scale(pygame.image.load('images/player/right3.png'), (128, 116)), dxs = 0):
+				imgright3 = pygame.transform.scale(pygame.image.load('images/player/right3.png'), (128, 116)),
+				img4 = pygame.transform.scale(pygame.image.load('images/player/straight4.png'), (122, 64)),
+				imgleft4 = pygame.transform.scale(pygame.image.load('images/player/left4.png'), (122, 64)),
+				imgright4 = pygame.transform.scale(pygame.image.load('images/player/right4.png'), (122, 64)), dxs = 0):
 		#hitbox width
 		self.width = width
 		#hitbox height
@@ -37,6 +40,10 @@ class Player:
 			self.img = img3
 			self.imgleft = imgleft3
 			self.imgright = imgright3
+		elif car == 4:
+			self.img = img4
+			self.imgleft = imgleft4
+			self.imgright = imgright4
 		#image to be displayed while running
 		self.image = pygame.transform.rotate(self.img, 0)
 		#xadjust and yadjust are constants to make the x and y coordinates in the self.hitbox correspond with the center of the image

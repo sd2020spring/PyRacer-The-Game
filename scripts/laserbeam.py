@@ -9,14 +9,14 @@ HEIGHT = 500
 DISPLAY = pygame.display.set_mode((WIDTH,HEIGHT),0,32)
 
 class Laserbeam:
-	def __init__(self, track = 1, img = pygame.transform.scale(pygame.image.load('images/objects/laserbeam2.png'), (80, 500))):
+	def __init__(self, track = 1, img = pygame.transform.scale(pygame.image.load('images/objects/laserbeam.png'), (80, 500))):
 		self.starttime = time.clock()
 		self.currenttime = time.clock()
 		self.width = 80
 		self.height = 500
 		self.fallrate = 2
 		self.image = img
-		self.lasercombo = 0
+		self.lasercombo = 2
 		self.touchdown = True
 		self.x1 = WIDTH/4-(self.width/2)
 		self.x2 = 2*WIDTH/4-(self.width/2)
@@ -34,7 +34,6 @@ class Laserbeam:
 			self.mincombos = 4
 			self.maxcombos = 6
 	def update(self):
-		print('y1: ' + str(self.y1) + ' y2: ' + str(self.y2) + ' y3: ' + str(self.y3))
 		self.currenttime = time.clock()-self.starttime
 		if (self.currenttime-self.starttime) > (.01-(self.fallrate/1000)):
 			if self.touchdown == True:
