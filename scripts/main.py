@@ -40,7 +40,6 @@ def main():
     file.close()
 
     while True:
-        print(gamedata)
         if ingame == False:
             if frame > 1:
                 startscreen = False
@@ -68,7 +67,7 @@ def main():
             elif car == 4:
                 carxscale = 244
                 caryscale = 128
-                caryadjust = 12
+                caryadjust = 0
                 carname = 'GOLDEN ESPRIT'
 
             if course == 1:
