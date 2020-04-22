@@ -1,5 +1,7 @@
-import pygame, sys
-from pygame.locals import *
+import contextlib
+with contextlib.redirect_stdout(None):
+    import pygame, sys
+    from pygame.locals import *
 import numpy as np
 from trackgenerator import TrackGenerator
 import time
@@ -57,13 +59,11 @@ class Road:
 		self.sidelines = np.zeros(100, dtype=object)
 		self.tilt = 0
 		self.distance = 0
-		self.accelerate = False
 		self.speed = 0
 		self.sp = 0
 		self.linecolor = 0
 		self.lapnum = 1
-		self.startrace = True
-		filename = 'tracks/track' + str(track) + '.txt'
+		filename = 'data/tracks/track' + str(track) + '.txt'
 		with open(filename) as file:
 			self.trackroad = file.readline()
 		file.close()
@@ -94,16 +94,16 @@ class Road:
 		self.roadwidth=1000
 
 	def readtrack(self):
-		self.currenttime = time.clock()-self.starttime
-		if (self.currenttime-self.starttime) > (.09-self.speed) or self.startrace == True:
+		self.currenttime = time.clock()
+		if (self.currenttime-self.starttime) > (.12-self.speed):
 			if self.distance >= len(self.trackroad):
 				self.distance = 0
 				self.lapnum += 1
 			self.speed += self.sp
 			if self.speed <= 0:
 				self.speed = 0
-			elif self.speed >= .08:
-				self.speed = .079
+			elif self.speed >= .09:
+				self.speed = .089
 			elif self.speed > 0:
 				if self.trackroad[self.distance] == '3':
 					self.tilt += 0
@@ -127,5 +127,4 @@ class Road:
 					self.update()
 				if self.distance < len(self.trackroad):
 					self.distance += 1
-			self.startrace = False	
-			self.starttime = self.currenttime
+			self.starttime = time.clock()

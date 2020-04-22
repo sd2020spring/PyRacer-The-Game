@@ -1,19 +1,42 @@
-import pygame, sys
-from pygame.locals import *
+#import pygame and other necessary libraries
+import contextlib
+with contextlib.redirect_stdout(None):
+    import pygame, sys
+    from pygame.locals import *
 import numpy as np
 
 class TrackGenerator:
-	def __init__(self, x = None, y = None):
+	"""
+	The 'TrackGenerator' class is used to generate a list of numbers that will correlate to how the in-game road will operate.
+
+	Each number from 1 through 5 will cause the road to act differently:
+	1 - Road holds to the left.
+	2 - Road turns to the left.
+	3 - Road holds to the center.
+	4 - Road turns to the right.
+	5 - Road holds to the right.
+	"""
+	def __init__(self):
+		"""
+		The '__init__()' function defines the possible pieces of the track that can be put together.
+		"""
+		#road stays straight
 		self.straight = '3'
+		#road turns left, holds left, then turns back right to the center
 		self.left = '222222222222222222222222222222221111111111111111111111111111111144444444444444444444444444444444'
 		self.left2 = '222222222222222211111111111111114444444444444444'
 		self.left3 = '222222221111111144444444'
+		#road turns right, holds right, then turns back left to the center
 		self.right = '444444444444444444444444444444445555555555555555555555555555555522222222222222222222222222222222'
 		self.right2 = '444444444444444455555555555555552222222222222222'
 		self.right3 = '444444445555555522222222'
-		self.track = []
+		#this string will be used to add and then save the generated data to a text file to pull from later
 		self.road = ''
 	def generate(self):
+		"""
+		The 'generate()' function uses the predefined pieces for a track witten with strings to make a complete track.
+		"""
+		#continuously add pieces to the overall track
 		'''
 		#TRACK1
 		for trackpieces in range(50):
@@ -170,10 +193,7 @@ class TrackGenerator:
 		for trackpieces in range(30):
 			self.road += self.straight
 
-		self.track.append(self.road)
-
-		file=open('tracks/track6.txt','w+')
-		for element in self.track:
-		     file.write(str(element))
-		     file.write('\n')
+		#save created data to a text file with the appropriate track name
+		file=open('data/tracks/track6.txt','w+')
+		file.write(self.road)
 		file.close()

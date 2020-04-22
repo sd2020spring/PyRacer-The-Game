@@ -1,7 +1,17 @@
-import pygame, sys
-from pygame.locals import *
+#import pygame
+import contextlib
+with contextlib.redirect_stdout(None):
+    import pygame, sys
+    from pygame.locals import *
+
+#set default display dimensions
+WIDTH = 800
+HEIGHT = 500
 
 class Player:
+	"""
+	This 'Player' class is used to display and update the player object (the car that the user controls).
+	"""
 	def __init__(self, car = 1, width = 0, height = 0, x = 0, y = 0,
 				img1 = pygame.transform.scale(pygame.image.load('images/player/straight1.png'), (116, 64)),
 				imgleft1 = pygame.transform.scale(pygame.image.load('images/player/left1.png'), (116, 64)),
@@ -15,19 +25,20 @@ class Player:
 				img4 = pygame.transform.scale(pygame.image.load('images/player/straight4.png'), (122, 64)),
 				imgleft4 = pygame.transform.scale(pygame.image.load('images/player/left4.png'), (122, 64)),
 				imgright4 = pygame.transform.scale(pygame.image.load('images/player/right4.png'), (122, 64)), dxs = 0):
-		#hitbox width
+		"""
+		The '__init__()' function defines the source images for each car as well as some positioning and collision defaults.
+		"""
+		#car's image and hitbox width
 		self.width = width
-		#hitbox height
+		#car's image and hitbox height
 		self.height = height
-		#x position
+		#car's x position
 		self.x = x
-		#y position
+		#car's y position
 		self.y = y
-		#change in x (if moving)
+		#car's change in x (if moving)
 		self.dx = 0
-		#change in y (if moving)
-		self.dy = 0
-		#original reference image (to prevent quality loss from transformations)
+		#the selected car will use the source images correlating to its numeral value
 		if car == 1:
 			self.img = img1
 			self.imgleft = imgleft1
@@ -46,22 +57,16 @@ class Player:
 			self.imgright = imgright4
 		#image to be displayed while running
 		self.image = pygame.transform.rotate(self.img, 0)
-		#xadjust and yadjust are constants to make the x and y coordinates in the self.hitbox correspond with the center of the image
-		self.xadjust = -width/2
-		self.yadjust = -height/2
-		#hitbox- simplifies boundaries for collision or eating detection
-		self.hitbox = (self.x+self.xadjust, self.y+self.yadjust, self.width, self.height)
-		#number of bugs the self has eaten
+		#the simulated centrefugal force
 		self.dxs = 0
 	def move(self):
-		#change x by dx
+		"""
+		The 'move()' makes the car move sideways.
+		"""
+		#change x by dx and dxs
 		self.x += self.dx + self.dxs
-		#change y by dy
-		self.y += self.dy
-		#moves the hitbox so that it always corresponds to the position
-		self.hitbox = (self.x+self.xadjust, self.y+self.yadjust, self.width, self.height)
-	def gameover(self):
-		#stops along x axis
-		self.dx = 0
-		#stops along y axis
-		self.dy = 0
+		#check to make sure that thw car is within the bounds of the display
+		if self.x >= (WIDTH-self.width):
+			self.x = WIDTH-self.width
+		if self.x <= 0:
+			self.x = 0

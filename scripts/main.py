@@ -1,5 +1,7 @@
-import pygame, sys
-from pygame.locals import *
+import contextlib
+with contextlib.redirect_stdout(None):
+    import pygame, sys
+    from pygame.locals import *
 import numpy as np
 import random
 import time
@@ -34,7 +36,7 @@ def main():
     ingamefontsmall = pygame.font.Font('fonts/Retron2000.ttf', 16)
     pygame.mixer.music.load('music/music0.mp3')
     pygame.mixer.music.play(-1)
-    filename = 'data/gamedata.txt'
+    filename = 'data/gamedata/gamedata.txt'
     with open(filename) as file:
         gamedata = file.readline()
     file.close()
@@ -46,7 +48,6 @@ def main():
             carimg ='images/player/front' + str(car) + '.png'
             menuslide = 'images/menuframes/frame' + str(frame) + '.png'
             bgimage = 'images/backgrounds/bg' + str(course) + '.png'
-            turboimg ='images/objects/goldenturbo.png'
             window = pygame.transform.scale(pygame.image.load(menuslide), (800,500))
 
             if car == 1:
@@ -86,7 +87,7 @@ def main():
             cartitle = carfont.render(carname, True, WHITE, BLACK)
             coursetitle = coursefont.render(coursename, True, WHITE, BLACK)
             carrender = pygame.transform.scale(pygame.image.load(carimg), (carxscale,caryscale))
-            turborender = pygame.transform.scale(pygame.image.load(turboimg), (50,50))
+            turborender = pygame.transform.scale(pygame.image.load('images/objects/goldenturbo.png'), (54,50))
             DISPLAY.blit(window, (0,0))
             if frame == 2:
                 DISPLAY.blit(carrender, (WIDTH/2-carxscale/2,HEIGHT/2-caryadjust))
@@ -143,8 +144,9 @@ def main():
                         elif frame == 3:
                             window = pygame.transform.scale(pygame.image.load(bgimage), (1000,302))
                             street = Road(course)
-                            racer = Player(car, 30, 30, WIDTH/2, 7*HEIGHT/8 - 20)
+                            racer = Player(car, carxscale/2,caryscale/2, WIDTH/2, (7*HEIGHT/8-20-caryadjust/2))
                             lasers = Laserbeam(course)
+                            condition = 100
                             pygame.mixer.music.stop()
                             pygame.mixer.music.load('music/music' + str(course) + '.mp3')
                             pygame.mixer.music.play(-1)
@@ -161,9 +163,9 @@ def main():
                         elif frame == 3:
                             frame = 2
                     if event.key == (pygame.K_r):
-                        file=open('data/gamedata.txt','w+')
+                        file=open('data/gamedata/gamedata.txt','w+')
                         gamedata = '000000'
-                        file.write('000000')
+                        file.write(gamedata)
                         file.close()
 
         else:
@@ -186,6 +188,9 @@ def main():
             street.update()
             racer.move()
 
+            if car == 1:
+                if street.speed > .08:
+                    street.speed = .079
             if car == 2:
                 if street.speed > .07:
                     street.speed = .069
@@ -193,7 +198,7 @@ def main():
                 if street.speed > .06:
                     street.speed = .059
 
-            if street.accelerate:
+            if street.speed > 0:
                 if street.tilt == 0:
                     racer.dxs = 0
                 elif street.tilt == -1:
@@ -203,13 +208,13 @@ def main():
             else:
                 racer.dxs = 0
 
-            if ((racer.x-(carxscale/4) >= lasers.x1-40 and racer.x-(carxscale/4) <= lasers.x1+40 and lasers.y1 > -(500-racer.y+(caryadjust/2)))
-                or (racer.x-(carxscale/4) >= lasers.x2-40 and racer.x-(carxscale/4) <= lasers.x2+40 and lasers.y2 > -(500-racer.y+(caryadjust/2)))
-                or (racer.x-(carxscale/4) >= lasers.x3-40 and racer.x-(carxscale/4) <= lasers.x3+40 and lasers.y3 > -(500-racer.y+(caryadjust/2)))
-                or (racer.x+(carxscale/4) >= lasers.x1-40 and racer.x+(carxscale/4) <= lasers.x1+40 and lasers.y1 > -(500-racer.y+(caryadjust/2)))
-                or (racer.x+(carxscale/4) >= lasers.x2-40 and racer.x+(carxscale/4) <= lasers.x2+40 and lasers.y2 > -(500-racer.y+(caryadjust/2)))
-                or (racer.x+(carxscale/4) >= lasers.x3-40 and racer.x+(carxscale/4) <= lasers.x3+40 and lasers.y3 > -(500-racer.y+(caryadjust/2)))):
-                condition -= .2/car
+            if ((lasers.x1 >= racer.x and lasers.x1 <= racer.x+racer.width and lasers.y1 >= -(lasers.height-racer.y))
+                or (lasers.x2 >= racer.x and lasers.x2 <= racer.x+racer.width and lasers.y2 >= -(lasers.height-racer.y))
+                or (lasers.x3 >= racer.x and lasers.x3 <= racer.x+racer.width and lasers.y3 >= -(lasers.height-racer.y))
+                or (lasers.x1+lasers.width >= racer.x and lasers.x1+lasers.width <= racer.x+racer.width and lasers.y1 >= -(lasers.height-racer.y))
+                or (lasers.x2+lasers.width >= racer.x and lasers.x2+lasers.width <= racer.x+racer.width and lasers.y2 >= -(lasers.height-racer.y))
+                or (lasers.x3+lasers.width >= racer.x and lasers.x3+lasers.width <= racer.x+racer.width and lasers.y3 >= -(lasers.height-racer.y))):
+                condition -= .1/car
 
             if (round((street.distance/len(street.trackroad))*100) >= 100 and street.lapnum >= 3):
                 ingame = False
@@ -217,7 +222,7 @@ def main():
                 pygame.mixer.music.load('music/musicc.mp3')
                 pygame.mixer.music.play(-1)
                 gamedata = gamedata[:(course-1)] + '1' + gamedata[(course):]
-                file=open('data/gamedata.txt','w+')
+                file=open('data/gamedata/gamedata.txt','w+')
                 file.write(gamedata)
                 file.close()
                 frame = 4
@@ -236,22 +241,21 @@ def main():
                 if gameevent.type == pygame.KEYDOWN:
                     #player moves left when left key is pressed
                     if gameevent.key == pygame.K_LEFT:
-                        racer.dx = -10*(.001+street.speed)
+                        racer.dx = -12*(.001+street.speed)
                         racer.image = racer.imgleft
                     #player moves right when right key is pressed
                     if gameevent.key == pygame.K_RIGHT:
-                        racer.dx = 10*(.001+street.speed)
+                        racer.dx = 12*(.001+street.speed)
                         racer.image = racer.imgright
                     #player moves up when up key is pressed
                     if gameevent.key == pygame.K_UP:
-                        street.accelerate = True
                         if car != 4:
-                            street.sp = .0005/car
+                            street.sp = .0003/car
                         elif car == 4:
-                            street.sp = .0006
+                            street.sp = .0004
                     #player moves down when down key is pressed
                     if gameevent.key == pygame.K_DOWN:
-                        street.sp = -.001/car
+                        street.sp = -.0002/car
 
                 if gameevent.type == pygame.KEYUP:
                     #player stops moving left
@@ -264,13 +268,12 @@ def main():
                         racer.image = racer.img
                     #player stops moving up
                     if gameevent.key == pygame.K_UP:
-                        street.accelerate = False
-                        street.sp = -.0002
+                        street.sp = -.0001
                     #player stops moving down
                     if gameevent.key == pygame.K_DOWN:
-                        street.sp = 0
+                        street.sp = -.0001
 
-            DISPLAY.blit(racer.image, (racer.x,racer.y-caryadjust/2))
+            DISPLAY.blit(racer.image, (racer.x,racer.y))
             DISPLAY.blit(lasers.image, (lasers.x1,lasers.y1))
             DISPLAY.blit(lasers.image, (lasers.x2,lasers.y2))
             DISPLAY.blit(lasers.image, (lasers.x3,lasers.y3))
