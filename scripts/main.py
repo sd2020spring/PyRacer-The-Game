@@ -3,6 +3,7 @@ import contextlib
 with contextlib.redirect_stdout(None):
     import pygame, sys
     from pygame.locals import *
+import webbrowser
 from player import Player
 #from trackgenerator import TrackGenerator
 from road import Road
@@ -49,6 +50,8 @@ def main():
     #load the default music and play continuously
     pygame.mixer.music.load('music/music0.mp3')
     pygame.mixer.music.play(-1)
+    #boolen to toggle music on or off
+    playmusic = True
     #load game data file
     filename = 'data/gamedata/gamedata.txt'
     with open(filename) as file:
@@ -190,7 +193,8 @@ def main():
                             condition = 100
                             pygame.mixer.music.stop()
                             pygame.mixer.music.load('music/music' + str(course) + '.mp3')
-                            pygame.mixer.music.play(-1)
+                            if playmusic == True:
+                                pygame.mixer.music.play(-1)
                             ingame = True
                         #go back to car select frame and reset music to default
                         elif frame == 4 or frame == 5:
@@ -206,11 +210,28 @@ def main():
                         elif frame == 3:
                             frame = 2
                     #reset game data
-                    if event.key == (pygame.K_r):
+                    if event.key == pygame.K_r:
                         file=open('data/gamedata/gamedata.txt','w+')
                         gamedata = '000000'
                         file.write(gamedata)
                         file.close()
+                    #toggle music on or off
+                    if event.key == pygame.K_m:
+                        if playmusic == True:
+                            pygame.mixer.music.stop()
+                            playmusic = False
+                        else:
+                            pygame.mixer.music.play(-1)
+                            playmusic = True
+                    #open information file
+                    if event.key == pygame.K_i:
+                        webbrowser.open('https://github.com/sd2020spring/DepthProject-tolu-patrick/blob/master/README.md')
+                    #play easter egg music
+                    if event.key == pygame.K_l:
+                        if gamedata.count('1') >= 6:
+                            pygame.mixer.music.stop()
+                            pygame.mixer.music.load('music/musicl.mp3')
+                            pygame.mixer.music.play(1)
 
         #things happening in the in-game scenario
         else:
@@ -276,7 +297,8 @@ def main():
                 #play mission completed music
                 pygame.mixer.music.stop()
                 pygame.mixer.music.load('music/musicc.mp3')
-                pygame.mixer.music.play(-1)
+                if playmusic == True:
+                    pygame.mixer.music.play(-1)
                 gamedata = gamedata[:(course-1)] + '1' + gamedata[(course):]
                 file=open('data/gamedata/gamedata.txt','w+')
                 file.write(gamedata)
@@ -290,7 +312,8 @@ def main():
                 #play mission failed music
                 pygame.mixer.music.stop()
                 pygame.mixer.music.load('music/musicf.mp3')
-                pygame.mixer.music.play(-1)
+                if playmusic == True:
+                    pygame.mixer.music.play(-1)
                 #lose frame
                 frame = 5
 
@@ -323,6 +346,20 @@ def main():
                     #player decelerates (the road progresses forward at a continuously decreasing rate until zero) when the down key is pressed
                     if gameevent.key == pygame.K_DOWN:
                         street.sp = -.00035/car
+                    #toggle music on or off
+                    if gameevent.key == pygame.K_m:
+                        if playmusic == True:
+                            pygame.mixer.music.stop()
+                            playmusic = False
+                        else:
+                            pygame.mixer.music.play(-1)
+                            playmusic = True
+                    #play easter egg music
+                    if gameevent.key == pygame.K_l:
+                        if gamedata.count('1') >= 6:
+                            pygame.mixer.music.stop()
+                            pygame.mixer.music.load('music/musicl.mp3')
+                            pygame.mixer.music.play(1)
 
                 if gameevent.type == pygame.KEYUP:
                     #player stops moving left

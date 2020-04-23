@@ -19,12 +19,17 @@ For car choices, we have an option of the fastest car, but low durability, a med
 
 There are laserbeams coming overhead which enact damage to your car if it comes in contact. We have turbochargers as icons, which signify the number of stages you have completed. A golden turbocharger means you have completed one of the six stages.   
 
-In order to reset number of turbochargers, simply press "R" in the menu.   
-In the folder, if you navigate to data>gamedata.txt, you will see any collection of six numbers that are either 0's or 1's, which represent the completion values of each course completed. Changing them to 0, changes it to uncompleted.   
+In order to reset number of turbochargers and the saved game data, simply press "r" in the menu.   
+In the folder, if you navigate to `data/gamedata/gamedata.txt`, you will see any collection of six numbers that are either 0's or 1's, which represent the completion values of each course completed. Changing them to 0, changes it to uncompleted.   
 
 You also have differnet background music for each of the stages, as well as a HUD and stage completion idicator, giving you all the information you need to finish the stage.   
+To toggle the music on or off at any time press "m".   
 
-In summation, this game is a modern adaptation of the classic SEGA game 'Outrun', with a remix to the original gameplay where the you can choose between 3 different cars and race along 6 different courses. The primary objective of this game is to complete all six courses successfuly, and if this goal is achieved you will be rewared with the special 4th car. Below are the basic descriptions of each car.   
+To open the webpage for PyRacer's infromation (it will be a link to this page on github) press "i".   
+
+In summation, this game is a modern adaptation of the classic SEGA game 'Outrun', with a remix to the original gameplay where the you can choose between three different cars and race along 6 different courses. The primary objective of this game is to complete all six courses successfuly, and if this goal is achieved you will be rewared with the special fourth car. Below are the basic descriptions of each car.   
+
+*P.S. If you have unlocked the special fourth car press "l" at any time for a surprise!*   
 
 ### The Sprinter:   
 <img src="images/player/side1.png" alt="Sprinter Profile View" width="94" height="31"/>   
@@ -39,7 +44,7 @@ This car is somewhere in between in terms of speed and durability.
 This car is the slowest but most durable.   
 
 ### The ?????? ??????:   
-<img src="images/player/side4.png" alt="?????? ?????? Profile View" width="95" height="26"/>   
+<img src="images/player/silhouette.png" alt="?????? ?????? Profile View" width="95" height="26"/>   
 ???   
 
 
@@ -86,7 +91,7 @@ The 'generate()' function uses the predefined pieces for a track witten with str
 #### The 'main' Function:   
 The 'main()' function is used to run the game, manage which objects render, and play music, along with saving data and pulling data to be read by the objects that need it.   
 First all the objects are initialized and then in the following while loop all of the interactions (from user input, to collision detection, to the head-up display and ui) are handled.   
-##### while loop   
+##### The while loop:   
 Although dispersed, the while loop in this function can be split into three overall concepts: Graphics Rendering, User Input, and Collision Detection.   
 Two of the three concepts are presented in the 'ingame == False' statement while all three are presented in the 'ingame == True' statement.   
 	   
@@ -95,10 +100,12 @@ Two of the three concepts are presented in the 'ingame == False' statement while
 **Source Image Citations:**
 Car Sprites:   
 Chase H.Q. II/Super H.Q. (Sega Mega Drive/Genesis); Ripped by Yawackhary; Developed by I.T.L.; Taito Corporation 1992.   
+
 Lotus Turbo Challenge (Sega Mega Drive/Genesis); Ripped by Yawackhary; Developed by Magnetic Fields, Gremlin Graphics Software; Electronic Arts 1992.   
 
 Music Sources:   
-Lil Uzi Vert; "Lotus"; Eternal Atake (Deluxe); WMG (on behalf of Atlantic Records); Warner Chappell, Kobalt Music Publishing.   
+Lil Uzi Vert; "Lotus"; Eternal Atake (Deluxe); WMG (on behalf of Atlantic Records); Warner Chappell, Kobalt Music Publishing; Instrumental Remake By OBITX.   
+
 Vivid Sound × Hybrid Colors: Sonic Colors Original Soundtrack; Wave Master.   
 
 *All other source files were either royalt-free or made in-house.*
