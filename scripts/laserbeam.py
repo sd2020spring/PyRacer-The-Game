@@ -3,7 +3,6 @@ import contextlib
 with contextlib.redirect_stdout(None):
     import pygame, sys
     from pygame.locals import *
-import numpy as np
 import time
 import random
 
@@ -17,7 +16,8 @@ class Laserbeam:
 	"""
 	def __init__(self, track = 1, img = pygame.transform.scale(pygame.image.load('images/objects/laserbeam.png'), (85, 500))):
 		"""
-		The '__init__()' function defines the source image for the lasers and the possibilities of how the lasers will act, as well as some positioning and collision defaults.
+		The '__init__()' function defines the source image for the lasers and the possibilities of how the
+        lasers will act,as well as some positioning and collision defaults.
 		"""
 		#this sets the initial time to determine when to update the lasers
 		self.starttime = time.clock()
@@ -53,6 +53,7 @@ class Laserbeam:
 		elif track == 5 or track == 6:
 			self.mincombos = 4
 			self.maxcombos = 6
+
 	def update(self):
 		"""
 		The 'update()' function defines how the lasers will act depending on a random given number, and controlls the speeds at which they move.

@@ -3,7 +3,6 @@ import contextlib
 with contextlib.redirect_stdout(None):
     import pygame, sys
     from pygame.locals import *
-import numpy as np
 
 class TrackGenerator:
 	"""
@@ -32,6 +31,7 @@ class TrackGenerator:
 		self.right3 = '444444445555555522222222'
 		#this string will be used to add and then save the generated data to a text file to pull from later
 		self.road = ''
+
 	def generate(self):
 		"""
 		The 'generate()' function uses the predefined pieces for a track witten with strings to make a complete track.

@@ -59,13 +59,14 @@ class Player:
 		self.image = pygame.transform.rotate(self.img, 0)
 		#the simulated centrefugal force
 		self.dxs = 0
+
 	def move(self):
 		"""
 		The 'move()' makes the car move sideways.
 		"""
 		#change x by dx and dxs
 		self.x += self.dx + self.dxs
-		#check to make sure that thw car is within the bounds of the display
+		#check to make sure that the car is within the bounds of the display
 		if self.x >= (WIDTH-self.width):
 			self.x = WIDTH-self.width
 		if self.x <= 0:
