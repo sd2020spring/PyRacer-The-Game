@@ -51,46 +51,33 @@ This game utilizes the PyGame library to acomplish several tasks; from rendering
 There are five files and four classes that help create the game, with some handling the objects in the game and others handling the data the game uses.   
 
 #### The 'Player' Class & File:  
-This class is the is used to create the player object that is controlled using the arrow keys.   
+desc   
 +------------------------------------------------------------------------------------------------------------------+   
-The '__init__' function is used to initialize the player object.   
-The 'move' function is used to move the player and its corresponding hitbox by dx horizontally and by dy vertically.   
-The 'gameover' function is used to stop the player from moving.   
-The 'eat' function is used to increment the number of bugs eaten by the player (the score).   
+breakdown   
 
 #### The 'Road' Class & File:  
-This class is the is used to create the bugs objects that are the player's targets.   
+desc   
 +------------------------------------------------------------------------------------------------------------------+   
-The '__init__' function is used to initialize bugs that the player is trying to eat.   
-The 'check_if_eaten' function verifies if the hitbox of the bug is completely within the hitbox of the player-controlled object. If it is, then it is considered eaten.   
+breakdown   
 
 #### The 'Laserbeam' Class & File:  
-This class is the is used to create the obstacle object that the player is trying to avoid.   
+desc   
 +------------------------------------------------------------------------------------------------------------------+   
-The '__init__' function is used to initialize the obstacles that the player is trying to avoid.   
-The 'move' function is used to move the obstacle and its corresponding hitbox by dx horizontally and by dy vertically.   
-The 'rotate' function is used to rotate the obstacle object and its corresponding hitbox.   
-The 'gameover' function is used to stop the obstacle from moving.   
-
+breakdown   
 
 #### The 'TrackGenerator' Class & File:  
-This class is the is used to create the obstacle object that the player is trying to avoid.   
+desc   
 +------------------------------------------------------------------------------------------------------------------+   
-The '__init__' function is used to initialize the obstacles that the player is trying to avoid.   
-The 'move' function is used to move the obstacle and its corresponding hitbox by dx horizontally and by dy vertically.   
-The 'rotate' function is used to rotate the obstacle object and its corresponding hitbox.   
-The 'gameover' function is used to stop the obstacle from moving.   
+breakdown   
 
 ##### In addition to these classes there is the fundamental 'main' function.   
 
 #### The 'main' Function:   
-This is the main function that handles both the actual gameplay and rendering graphics. First all the objects are initialized and then in the following while loop all of the interactions (from user input, to collision detection, to the head-up display) are handled.   
-   
-The while loop handeles all of the interactions. Although dispersed, this while loop can be split into three overall concepts: Graphics Rendering, User Input, and Collision Detection.   
+This is the main function...   
 
 
 ## Usage Rights:
-All the graphics used in this project were either self-generated or royalty free.
+Look into this
 
 
 
