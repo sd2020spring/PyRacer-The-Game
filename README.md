@@ -27,20 +27,20 @@ You also have differnet background music for each of the stages, as well as a HU
 In summation, this game is a modern adaptation of the classic SEGA game 'Outrun', with a remix to the original gameplay where the you can choose between 3 different cars and race along 6 different courses. The primary objective of this game is to complete all six courses successfuly, and if this goal is achieved you will be rewared with the special 4th car. Below are the basic descriptions of each car.   
 
 ### The Sprinter:   
-This car is the fastest but least durable.   
 <img src="images/player/side1.png" alt="Sprinter Profile View" width="94" height="31"/>   
+This car is the fastest but least durable.   
 
 ### The Sport-Utility:   
-This car is somewhere in between in terms of speed and durability.   
 <img src="images/player/side2.png" alt="Sport-Utility Profile View" width="96" height="36"/>   
+This car is somewhere in between in terms of speed and durability.   
 
 ### The Big Rig:   
-This car is the slowest but most durable.   
 <img src="images/player/side3.png" alt="Big Rig Profile View" width="100" height="50"/>   
+This car is the slowest but most durable.   
 
 ### The ?????? ??????:   
-???   
 <img src="images/player/side4.png" alt="?????? ?????? Profile View" width="95" height="26"/>   
+???   
 
 
 ## Under The Hood:   
@@ -51,33 +51,58 @@ This game utilizes the PyGame library to acomplish several tasks; from rendering
 There are five files and four classes that help create the game, with some handling the objects in the game and others handling the data the game uses.   
 
 #### The 'Player' Class & File:  
-desc   
+This 'Player' class is used to display and update the player object (the car that the user controls).   
 +------------------------------------------------------------------------------------------------------------------+   
-breakdown   
+The '\__init__()' function defines the source images for each car as well as some positioning and collision defaults.   
+The 'move()' makes the car move sideways.   
 
 #### The 'Road' Class & File:  
-desc   
+This 'Road' class is used to display and update the road object (the simulation of forward movement in the game).   
 +------------------------------------------------------------------------------------------------------------------+   
-breakdown   
+The '\__init__()' function defines the aesthetics of each road that can be rendered and pulls the appropriate track data to read from.   
+The 'update()' function defines how each slice of the road/ground/sidelines will render depending on self.tilt, and the index of the respective list.   
+The 'readtrack()' function reads through the track data file and dictates how the overall course will react on each frame switch.   
 
 #### The 'Laserbeam' Class & File:  
-desc   
+This 'Laserbeam' class is used to display and update the laserbeam object (the obstacles that the user must avoid).   
 +------------------------------------------------------------------------------------------------------------------+   
-breakdown   
+The '\__init__()' function defines the source image for the lasers and the possibilities of how the lasers will act,as well as some positioning and collision defaults.   
+The 'update()' function defines how the lasers will act depending on a random given number, and controlls the speeds at which they move.   
 
 #### The 'TrackGenerator' Class & File:  
-desc   
+The 'TrackGenerator' class is used to generate a list of numbers that will correlate to how the in-game road will operate.   
+Each number from 1 through 5 will cause the road to act differently:   
+1 - Road holds to the left.   
+2 - Road turns to the left.   
+3 - Road holds to the center.   
+4 - Road turns to the right.   
+5 - Road holds to the right.   
 +------------------------------------------------------------------------------------------------------------------+   
-breakdown   
+The '\__init__()' function defines the possible pieces of the track that can be put together.   
+The 'generate()' function uses the predefined pieces for a track witten with strings to make a complete track.   
 
 ##### In addition to these classes there is the fundamental 'main' function.   
 
 #### The 'main' Function:   
-This is the main function...   
-
+The 'main()' function is used to run the game, manage which objects render, and play music, along with saving data and pulling data to be read by the objects that need it.   
+First all the objects are initialized and then in the following while loop all of the interactions (from user input, to collision detection, to the head-up display and ui) are handled.   
+##### while loop   
+Although dispersed, the while loop in this function can be split into three overall concepts: Graphics Rendering, User Input, and Collision Detection.   
+Two of the three concepts are presented in the 'ingame == False' statement while all three are presented in the 'ingame == True' statement.   
+	   
 
 ## Usage Rights:
-Look into this
+**Source Image Citations:**
+Car Sprites:   
+Chase H.Q. II/Super H.Q. (Sega Mega Drive/Genesis); Ripped by Yawackhary; Developed by I.T.L.; Taito Corporation 1992.   
+Lotus Turbo Challenge (Sega Mega Drive/Genesis); Ripped by Yawackhary; Developed by Magnetic Fields, Gremlin Graphics Software; Electronic Arts 1992.   
+
+Music Sources:   
+Lil Uzi Vert; "Lotus"; Eternal Atake (Deluxe); WMG (on behalf of Atlantic Records); Warner Chappell, Kobalt Music Publishing.   
+Vivid Sound × Hybrid Colors: Sonic Colors Original Soundtrack; Wave Master.   
+
+*All other source files were either royalt-free or made in-house.*
+
 
 
 
