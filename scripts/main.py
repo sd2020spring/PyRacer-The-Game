@@ -23,7 +23,7 @@ def main():
     along with saving data and pulling data to be read by the objects that need it.
 
 	First all the objects are initialized and then in the following while loop all of the interactions
-	(from user input, to collision detection, to the head-up display and ui) are handled.
+	(from user input, to collision detection, to the head-up display and UI) are handled.
 	"""
     #setup pygame window
     pygame.init()
@@ -68,7 +68,7 @@ def main():
         Two of the three concepts are presented in the 'ingame == False' statement while
         all three are presented in the 'ingame == True' statement.
 		"""
-        #things happening in the out-of-game scenario
+        #things happening during the out-of-game scenario
         if ingame == False:
             #graphics rendering
             #if the menu frame is past the first one, we are no longer on the start screen (this is used to prevent a bug when going back to the start screen)
@@ -123,9 +123,13 @@ def main():
             #if on the car select screen render the respective car's image to give off feel of shuffling through garage, along with the number of golden turbos, and the car name
             if frame == 2:
                 DISPLAY.blit(carrender, (WIDTH/2-carxscale/2,HEIGHT/2-caryadjust))
-                #in the gamedata file the number of ones is the number of completed courses ('000000'-no courses completed, '111111'-all courses completed)
-                for i in range(gamedata.count('1')):
-                    DISPLAY.blit(turborender, ((WIDTH/2+12.5)-((3-i)*75),385))
+                #in the gamedata file the number of ones is the number of completed courses ('0000000'-no courses completed, '1111111'-all courses completed and special car unlocked)
+                if gamedata.count('1') < 6:
+                    for i in range(gamedata.count('1')):
+                        DISPLAY.blit(turborender, ((WIDTH/2+12.5)-((3-i)*75),385))
+                else:
+                    for i in range(6):
+                        DISPLAY.blit(turborender, ((WIDTH/2+12.5)-((3-i)*75),385))
                 cartitlebox = cartitle.get_rect()
                 cartitlebox.centerx = WIDTH/2
                 cartitlebox.centery = HEIGHT/2-caryadjust-40
@@ -147,6 +151,15 @@ def main():
                 coursetitlebox = coursetitle.get_rect()
                 coursetitlebox.centerx = WIDTH/2
                 coursetitlebox.centery = HEIGHT/2
+                DISPLAY.blit(coursetitle, coursetitlebox)
+            #if on the new car unlocked screen render the image of the new car
+            elif frame == 6:
+                carrender = pygame.transform.scale(pygame.image.load('images/player/side4.png'), (570,156))
+                DISPLAY.blit(carrender, (100,HEIGHT/2-50))
+                coursetitle = coursefont.render('x6', True, WHITE, BLACK)
+                coursetitlebox = coursetitle.get_rect()
+                coursetitlebox.left = 125
+                coursetitlebox.centery = 450
                 DISPLAY.blit(coursetitle, coursetitlebox)
 
             #user input
@@ -196,12 +209,28 @@ def main():
                             if playmusic == True:
                                 pygame.mixer.music.play(-1)
                             ingame = True
+                        #go back to car select frame and reset music to default if no new car has been unlocked
+                        elif frame == 4:
+                            #car unlocked scenario
+                            if gamedata.count('1') == 6:
+                                gamedata = '1111111'
+                                file=open('data/gamedata/gamedata.txt','w+')
+                                file.write(gamedata)
+                                file.close()
+                                #new car unlocked frame
+                                frame = 6
+                            #typical scenario
+                            else:
+                                pygame.mixer.music.stop()
+                                pygame.mixer.music.load('music/music0.mp3')
+                                pygame.mixer.music.play(-1)
+                                frame = 2
                         #go back to car select frame and reset music to default
-                        elif frame == 4 or frame == 5:
-                            frame = 2
+                        elif frame == 5 or frame == 6:
                             pygame.mixer.music.stop()
                             pygame.mixer.music.load('music/music0.mp3')
                             pygame.mixer.music.play(-1)
+                            frame = 2
                     #go back to the previous menu frame
                     if event.key == (pygame.K_LSHIFT or pygame.K_RSHIFT):
                         if frame == 2:
@@ -211,8 +240,10 @@ def main():
                             frame = 2
                     #reset game data
                     if event.key == pygame.K_r:
+                        car = 1
+                        course = 1
                         file=open('data/gamedata/gamedata.txt','w+')
-                        gamedata = '000000'
+                        gamedata = '0000000'
                         file.write(gamedata)
                         file.close()
                     #toggle music on or off
@@ -233,7 +264,7 @@ def main():
                             pygame.mixer.music.load('music/musicl.mp3')
                             pygame.mixer.music.play(1)
 
-        #things happening in the in-game scenario
+        #things happening during the in-game scenario
         else:
             #display the course background
             DISPLAY.blit(window, (2*street.tilt-100,0))
@@ -386,7 +417,7 @@ def main():
             DISPLAY.blit(completiontext, completionbox)
             DISPLAY.blit(conditiontext, conditionbox)
 
-        #the following line continously calls the while loop
+        #the following line continuously calls the while loop
         pygame.display.update()
 
 #the following line calls the main function and starts the game

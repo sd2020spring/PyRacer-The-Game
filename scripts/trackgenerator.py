@@ -34,7 +34,7 @@ class TrackGenerator:
 
 	def generate(self):
 		"""
-		The 'generate()' function uses the predefined pieces for a track witten with strings to make a complete track.
+		The 'generate()' function uses the predefined pieces for a track written with strings to make a complete track.
 		"""
 		#continuously add pieces to the overall track
 		'''

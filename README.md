@@ -3,7 +3,7 @@
 <img src="images/screenshots/mainmenu.png" alt="Main Menu Screenshot" width="400" height="250"/>   
    
 ## Running The Game:   
-In order to run PyRacer you will have to first install Pygame, as this is the library much of this code is based on.   
+In order to run PyRacer you will have to first install PyGame, as this is the library much of this code is based on.   
 To install run the following code that best fits your situation in your terminal:   
 Globally on your OS- `python3 -m pip install -U pygame`   
 For a singular user- `python3 -m pip install -U pygame --user`   
@@ -15,19 +15,19 @@ Here, we have a 2.5D car racing game, in which you have to drive your selected c
 
 The goal of this game is to beat all 6 stages to unlock the last car. Each stage of this racing game is a track, that a car that completes 3 rounds through a selected track chosen in the menu.   
 
-For car choices, we have an option of the fastest car, but low durability, a medium speed car with medium durabiility, and a low speed car with high durability, and your objective is to complete the stage without your car getting destroyed.   
+For car choices, we have an option of the fastest car, but low durability, a medium speed car with medium durability, and a low speed car with high durability, and your objective is to complete the stage without your car getting destroyed.   
 
-There are laserbeams coming overhead which enact damage to your car if it comes in contact. We have turbochargers as icons, which signify the number of stages you have completed. A golden turbocharger means you have completed one of the six stages.   
+There are laser beams coming overhead which enact damage to your car if it comes into contact with the beams. We have turbochargers as icons, which signify the number of stages you have completed. A golden turbocharger means you have completed one of the six stages.   
 
 In order to reset number of turbochargers and the saved game data, simply press "r" in the menu.   
-In the folder, if you navigate to `data/gamedata/gamedata.txt`, you will see any collection of six numbers that are either 0's or 1's, which represent the completion values of each course completed. Changing them to 0, changes it to uncompleted.   
+In the folder, if you navigate to `data/gamedata/gamedata.txt`, you will see any collection of seven numbers that are either 0's or 1's, which represent the completion values of each course completed. Changing them all to 0, sets all courses as uncompleted.   
 
 You also have differnet background music for each of the stages, as well as a HUD and stage completion idicator, giving you all the information you need to finish the stage.   
-To toggle the music on or off at any time press "m".   
+To toggle the music on or off at any time, press "m".   
 
-To open the webpage for PyRacer's infromation (it will be a link to this page on github) press "i".   
+To open the web-page for PyRacer's information (it will be a link to this page on GitHub), press "i".   
 
-In summation, this game is a modern adaptation of the classic SEGA game 'Outrun', with a remix to the original gameplay where the you can choose between three different cars and race along 6 different courses. The primary objective of this game is to complete all six courses successfuly, and if this goal is achieved you will be rewared with the special fourth car. Below are the basic descriptions of each car.   
+In summation, this game is a modern adaptation of the classic SEGA game 'Outrun', with a remix to the original game play where the you can choose between three different cars and race along 6 different courses. The primary objective of this game is to complete all six courses successfully, and if this goal is achieved you will be rewarded with the special fourth car. Below are the basic descriptions of each car.   
 
 *P.S. If you have unlocked the special fourth car press "l" at any time for a surprise!*   
 
@@ -49,7 +49,7 @@ This car is the slowest but most durable.
 
 
 ## Under The Hood:   
-This game utilizes the PyGame library to acomplish several tasks; from rendering images and playing music to displaying the head-up display and handling user input. Used in accordance with object-oriented programming this game is brought to life.   
+This game utilizes the PyGame library to accomplish several tasks; from rendering images and playing music to displaying the head-up display and handling user input. Used in accordance with object-oriented programming this game is brought to life.   
 <img src="images/screenshots/gameplay.png" alt="Gameplay Screenshot" width="400" height="250"/>   
 
 ### Classes & Methods:   
@@ -71,8 +71,8 @@ The 'readtrack()' function reads through the track data file and dictates how th
 #### The 'Laserbeam' Class & File:  
 This 'Laserbeam' class is used to display and update the laserbeam object (the obstacles that the user must avoid).   
 +------------------------------------------------------------------------------------------------------------------+   
-The '\__init__()' function defines the source image for the lasers and the possibilities of how the lasers will act,as well as some positioning and collision defaults.   
-The 'update()' function defines how the lasers will act depending on a random given number, and controlls the speeds at which they move.   
+The '\__init__()' function defines the source image for the lasers and the possibilities of how the lasers will act, as well as some positioning and collision defaults.   
+The 'update()' function defines how the lasers will act depending on a random given number, and controls the speeds at which they move.   
 
 #### The 'TrackGenerator' Class & File:  
 The 'TrackGenerator' class is used to generate a list of numbers that will correlate to how the in-game road will operate.   
@@ -84,13 +84,13 @@ Each number from 1 through 5 will cause the road to act differently:
 5 - Road holds to the right.   
 +------------------------------------------------------------------------------------------------------------------+   
 The '\__init__()' function defines the possible pieces of the track that can be put together.   
-The 'generate()' function uses the predefined pieces for a track witten with strings to make a complete track.   
+The 'generate()' function uses the predefined pieces for a track written with strings to make a complete track.   
 
 ##### In addition to these classes there is the fundamental 'main' function.   
 
 #### The 'main' Function:   
 The 'main()' function is used to run the game, manage which objects render, and play music, along with saving data and pulling data to be read by the objects that need it.   
-First all the objects are initialized and then in the following while loop all of the interactions (from user input, to collision detection, to the head-up display and ui) are handled.   
+First all the objects are initialized and then in the following while loop all of the interactions (from user input, to collision detection, to the head-up display and UI) are handled.   
 ##### The while loop:   
 Although dispersed, the while loop in this function can be split into three overall concepts: Graphics Rendering, User Input, and Collision Detection.   
 Two of the three concepts are presented in the 'ingame == False' statement while all three are presented in the 'ingame == True' statement.   
@@ -108,7 +108,7 @@ Lil Uzi Vert; "Lotus"; Eternal Atake (Deluxe); WMG (on behalf of Atlantic Record
 
 Vivid Sound × Hybrid Colors: Sonic Colors Original Soundtrack; Wave Master.   
 
-*All other source files were either royalt-free or made in-house.*
+*All other source files were either royalty-free or made in-house.*
 
 
 
