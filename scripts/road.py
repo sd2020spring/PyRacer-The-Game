@@ -3,14 +3,16 @@ import contextlib
 with contextlib.redirect_stdout(None):
     import pygame, sys
     from pygame.locals import *
+from globalvariables import GlobalVariables, gvar
 import numpy as np
 import time
 
+#initialize the source for global variables from import
+global gvar
 #set default display dimensions and create a display to render the road
-WIDTH = 800
-HEIGHT = 500
-DISPLAY = pygame.display.set_mode((WIDTH,HEIGHT),0,32)
-
+WIDTH = gvar.WIDTH
+HEIGHT = gvar.HEIGHT
+DISPLAY = gvar.DISPLAY
 
 class Road:
     """

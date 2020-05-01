@@ -3,10 +3,13 @@ import contextlib
 with contextlib.redirect_stdout(None):
     import pygame, sys
     from pygame.locals import *
+from globalvariables import GlobalVariables, gvar
 
+#initialize the source for global variables from import
+global gvar
 #set default display dimensions
-WIDTH = 800
-HEIGHT = 500
+WIDTH = gvar.WIDTH
+HEIGHT = gvar.HEIGHT
 
 class Player:
 	"""
