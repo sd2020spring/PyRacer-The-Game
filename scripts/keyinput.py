@@ -159,7 +159,7 @@ class KeyInput:
                             gvar.PLAYMUSIC = True
                     #play easter egg music
                     if event.key == pygame.K_l:
-                        if gamedata.count('1') >= 6:
+                        if gvar.GAMEDATA.count('1') >= 6:
                             pygame.mixer.music.stop()
                             pygame.mixer.music.load('music/musicl.mp3')
                             pygame.mixer.music.play(1)
