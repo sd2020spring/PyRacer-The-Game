@@ -3,10 +3,12 @@
 <img src="images/screenshots/mainmenu.png" alt="Main Menu Screenshot" width="400" height="250"/>   
    
 ## Running The Game:   
+PyRacer was developed in Python and thus you must have Python 3 or higher installed on your machine to play.   
 In order to run PyRacer you will have to first install PyGame, as this is the library much of this code is based on.   
 To install run the following code that best fits your situation in your terminal:   
 Globally on your OS- `python3 -m pip install -U pygame`   
 For a singular user- `python3 -m pip install -U pygame --user`   
+PyRacer is Cross-Platform and works on Windows, Mac OS, and Linux   
    
 Once PyGame is installed open the directory in which the game files are saved and run `python3 scripts/main.py` in the terminal of that directory.   
    
@@ -55,45 +57,55 @@ This game utilizes the PyGame library to accomplish several tasks; from renderin
 ### Classes & Methods:   
 There are five files and four classes that help create the game, with some handling the objects in the game and others handling the data the game uses.   
 
-#### The 'Player' Class & File:  
-This 'Player' class is used to display and update the player object (the car that the user controls).   
-+------------------------------------------------------------------------------------------------------------------+   
-The '\__init__()' function defines the source images for each car as well as some positioning and collision defaults.   
-The 'move()' makes the car move sideways.   
+#### The `Player` Class & File:  
+This `Player` class is used to display and update the player object (the car that the user controls).   
+---   
+The `__init__()` function defines the source images for each car as well as some positioning and collision defaults.   
+The `move()` makes the car move sideways.   
 
-#### The 'Road' Class & File:  
-This 'Road' class is used to display and update the road object (the simulation of forward movement in the game).   
-+------------------------------------------------------------------------------------------------------------------+   
-The '\__init__()' function defines the aesthetics of each road that can be rendered and pulls the appropriate track data to read from.   
-The 'update()' function defines how each slice of the road/ground/sidelines will render depending on self.tilt, and the index of the respective list.   
-The 'readtrack()' function reads through the track data file and dictates how the overall course will react on each frame switch.   
+#### The `Road` Class & File:  
+This `Road` class is used to display and update the road object (the simulation of forward movement in the game).   
+---   
+The `__init__()` function defines the aesthetics of each road that can be rendered and pulls the appropriate track data to read from.   
+The `update()` function defines how each slice of the road/ground/sidelines will render depending on self.tilt, and the index of the respective list.   
+The `readtrack()` function reads through the track data file and dictates how the overall course will react on each frame switch.   
 
-#### The 'Laserbeam' Class & File:  
-This 'Laserbeam' class is used to display and update the laserbeam object (the obstacles that the user must avoid).   
-+------------------------------------------------------------------------------------------------------------------+   
-The '\__init__()' function defines the source image for the lasers and the possibilities of how the lasers will act, as well as some positioning and collision defaults.   
-The 'update()' function defines how the lasers will act depending on a random given number, and controls the speeds at which they move.   
+#### The `Laserbeam` Class & File:  
+This `Laserbeam` class is used to display and update the laserbeam object (the obstacles that the user must avoid).   
+---   
+The `__init__()` function defines the source image for the lasers and the possibilities of how the lasers will act, as well as some positioning and collision defaults.   
+The `update()` function defines how the lasers will act depending on a random given number, and controls the speeds at which they move.   
 
-#### The 'TrackGenerator' Class & File:  
-The 'TrackGenerator' class is used to generate a list of numbers that will correlate to how the in-game road will operate.   
+#### The `TrackGenerator` Class & File:  
+The `TrackGenerator` class is used to generate a list of numbers that will correlate to how the in-game road will operate.   
 Each number from 1 through 5 will cause the road to act differently:   
 1 - Road holds to the left.   
 2 - Road turns to the left.   
 3 - Road holds to the center.   
 4 - Road turns to the right.   
 5 - Road holds to the right.   
-+------------------------------------------------------------------------------------------------------------------+   
-The '\__init__()' function defines the possible pieces of the track that can be put together.   
-The 'generate()' function uses the predefined pieces for a track written with strings to make a complete track.   
+---   
+The `__init__()` function defines the possible pieces of the track that can be put together.   
+The `generate()` function uses the predefined pieces for a track written with strings to make a complete track.   
+
+#### The `KeyInput` Class & File:  
+The `KeyInput` class is used to handle user input from the keyboard.   
+---   
+The `read()` handles the game's reactions to the user's input.   
+
+#### The `GlobalVariables` Class & File:  
+The `GlobalVariables` handles the all the gloabl variables in the game.   
+---   
+The `__init__()` function initializes every single global variable that all the other objects can access during runtime.   
 
 ##### In addition to these classes there is the fundamental 'main' function.   
 
-#### The 'main' Function:   
-The 'main()' function is used to run the game, manage which objects render, and play music, along with saving data and pulling data to be read by the objects that need it.   
+#### The `main` Function:   
+The `main()` function is used to run the game, manage which objects render, and play music, along with saving data and pulling data to be read by the objects that need it.   
 First all the objects are initialized and then in the following while loop all of the interactions (from user input, to collision detection, to the head-up display and UI) are handled.   
 ##### The while loop:   
 Although dispersed, the while loop in this function can be split into three overall concepts: Graphics Rendering, User Input, and Collision Detection.   
-Two of the three concepts are presented in the 'ingame == False' statement while all three are presented in the 'ingame == True' statement.   
+Two of the three concepts are presented in the `ingame == False` statement while all three are presented in the `ingame == True` statement.   
 	   
 
 ## Usage Rights:

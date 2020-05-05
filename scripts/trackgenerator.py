@@ -1,4 +1,5 @@
 #import pygame and other necessary libraries
+from pathlib import Path
 import contextlib
 with contextlib.redirect_stdout(None):
     import pygame, sys
@@ -6,7 +7,7 @@ with contextlib.redirect_stdout(None):
 
 class TrackGenerator:
 	"""
-	The 'TrackGenerator' class is used to generate a list of numbers that will correlate to how the in-game road will operate.
+	The `TrackGenerator` class is used to generate a list of numbers that will correlate to how the in-game road will operate.
 
 	Each number from 1 through 5 will cause the road to act differently:
 	1 - Road holds to the left.
@@ -17,7 +18,7 @@ class TrackGenerator:
 	"""
 	def __init__(self):
 		"""
-		The '__init__()' function defines the possible pieces of the track that can be put together.
+		The `__init__()` function defines the possible pieces of the track that can be put together.
 		"""
 		#road stays straight
 		self.straight = '3'
@@ -34,7 +35,7 @@ class TrackGenerator:
 
 	def generate(self):
 		"""
-		The 'generate()' function uses the predefined pieces for a track written with strings to make a complete track.
+		The `generate()` function uses the predefined pieces for a track written with strings to make a complete track.
 		"""
 		#continuously add pieces to the overall track
 		'''
@@ -194,6 +195,7 @@ class TrackGenerator:
 			self.road += self.straight
 
 		#save created data to a text file with the appropriate track name
-		file=open('data/tracks/track6.txt','w+')
+        trackfile = Path('data/tracks/track6.txt')
+        file=open(trackfile,'w+')
 		file.write(self.road)
 		file.close()

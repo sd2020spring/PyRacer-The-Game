@@ -1,10 +1,18 @@
+#import pygame and other necessary libraries
+from pathlib import Path
 import contextlib
 with contextlib.redirect_stdout(None):
     import pygame, sys
     from pygame.locals import *
 
 class GlobalVariables():
+    """
+    The `GlobalVariables` handles the all the gloabl variables in the game.
+    """
     def __init__(self):
+        """
+		The `__init__()` function initializes every single global variable that all the other objects can access during runtime.
+		"""
         self.WIDTH = 800
         self.HEIGHT = 500
         self.DISPLAY = pygame.display.set_mode((self.WIDTH,self.HEIGHT),0,32)
@@ -23,14 +31,16 @@ class GlobalVariables():
         #boolean to toggle music on or off
         self.PLAYMUSIC = True
         #load game data file
-        filename = 'data/gamedata/gamedata.txt'
-        with open(filename) as file:
+        datafile = Path('data/gamedata/gamedata.txt')
+        with open(datafile) as file:
             self.GAMEDATA = file.readline()
         file.close()
         #boolean to toggle music on or off
         playmusic = True
         #render background image
-        self.WINDOW = pygame.transform.scale(pygame.image.load('images/menuframes/frame1.png'), (self.WIDTH,self.HEIGHT))
+        menufilepath = Path('images/menuframes/frame1')
+        menufile = str(menufilepath)+'.png'
+        self.WINDOW = pygame.transform.scale(pygame.image.load(menufile), (self.WIDTH,self.HEIGHT))
         #initialize dummy car scalings and vertical adjustments
         self.CARXSCALE = 0
         self.CARYSCALE = 0
@@ -45,5 +55,6 @@ class GlobalVariables():
         self.STREETSPEED = 0
         self.STREETSP = 0
 
+#define the global object with all the varibles defined inside
 global gvar
 gvar = GlobalVariables()

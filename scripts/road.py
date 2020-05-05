@@ -1,4 +1,5 @@
 #import pygame and other necessary libraries
+from pathlib import Path
 import contextlib
 with contextlib.redirect_stdout(None):
     import pygame, sys
@@ -16,11 +17,11 @@ DISPLAY = gvar.DISPLAY
 
 class Road:
     """
-    This 'Road' class is used to display and update the road object (the simulation of forward movement in the game).
+    This `Road` class is used to display and update the road object (the simulation of forward movement in the game).
     """
     def __init__(self, track = 1, x = 0, y = 0):
         """
-        The '__init__()' function defines the aesthetics of each road that can be rendered and pulls the appropriate track data to read from.
+        The `__init__()` function defines the aesthetics of each road that can be rendered and pulls the appropriate track data to read from.
         """
         #this sets the initial time to determine when to update the lasers
         self.starttime = time.clock()
@@ -86,14 +87,14 @@ class Road:
         #the number of complete progessions through the track data that the road has read
         self.lapnum = 1
         #open the given track's data file
-        filename = 'data/tracks/track' + str(track) + '.txt'
-        with open(filename) as file:
+        trackfile = Path('data/tracks/track'+str(track)+'.txt')
+        with open(trackfile) as file:
             self.trackroad = file.readline()
         file.close()
 
     def update(self):
         """
-        The 'update()' function defines how each slice of the road/ground/sidelines will render
+        The `update()` function defines how each slice of the road/ground/sidelines will render
         depending on self.tilt, and the index of the respective list.
         """
         #create 100 slices of the ground that alternate colors on each frame switch
@@ -125,7 +126,7 @@ class Road:
 
     def readtrack(self):
         """
-        The 'readtrack()' function reads through the track data file and dictates how the overall course will react on each frame switch.
+        The `readtrack()` function reads through the track data file and dictates how the overall course will react on each frame switch.
         """
         #update the current time
         self.currenttime = time.clock()

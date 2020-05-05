@@ -1,4 +1,5 @@
 #import pygame and other necessary libraries
+from pathlib import Path
 import contextlib
 with contextlib.redirect_stdout(None):
     import pygame, sys
@@ -13,13 +14,15 @@ global gvar
 WIDTH = gvar.WIDTH
 HEIGHT = gvar.HEIGHT
 
+laserfilepath = Path('images/objects/laserbeam')
+
 class Laserbeam:
 	"""
-	This 'Laserbeam' class is used to display and update the laserbeam object (the obstacles that the user must avoid).
+	This `Laserbeam` class is used to display and update the laserbeam object (the obstacles that the user must avoid).
 	"""
-	def __init__(self, track = 1, img = pygame.transform.scale(pygame.image.load('images/objects/laserbeam.png'), (85, 500))):
+	def __init__(self, track = 1, img = pygame.transform.scale(pygame.image.load(str(laserfilepath)+'.png'), (85, 500))):
 		"""
-		The '__init__()' function defines the source image for the lasers and the possibilities of how the
+		The `__init__()` function defines the source image for the lasers and the possibilities of how the
         lasers will act, as well as some positioning and collision defaults.
 		"""
 		#this sets the initial time to determine when to update the lasers
@@ -59,7 +62,7 @@ class Laserbeam:
 
 	def update(self):
 		"""
-		The 'update()' function defines how the lasers will act depending on a random given number, and controls the speeds at which they move.
+		The `update()` function defines how the lasers will act depending on a random given number, and controls the speeds at which they move.
 		"""
 		#update the current time
 		self.currenttime = time.clock()

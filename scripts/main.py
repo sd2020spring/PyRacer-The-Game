@@ -1,4 +1,5 @@
 #import pygame, local class files, and other necessary libraries
+from pathlib import Path
 import contextlib
 with contextlib.redirect_stdout(None):
     import pygame, sys
@@ -24,7 +25,7 @@ DISPLAY.fill(BLACK)
 
 def main():
     """
-	The 'main()' function is used to run the game, manage which objects render, and play music,
+	The `main()` function is used to run the game, manage which objects render, and play music,
     along with saving data and pulling data to be read by the objects that need it.
 
 	First all the objects are initialized and then in the following while loop all of the interactions
@@ -41,7 +42,9 @@ def main():
     ingamefontbig = pygame.font.Font('fonts/Retron2000.ttf', 32)
     ingamefontsmall = pygame.font.Font('fonts/Retron2000.ttf', 16)
     #load the default music and play continuously
-    pygame.mixer.music.load('music/music0.mp3')
+    musicfilepath = Path('music/music0')
+    musicfile = str(musicfilepath)+'.mp3'
+    pygame.mixer.music.load(musicfile)
     pygame.mixer.music.play(-1)
     #initialize keyboard input object
     keyreader = KeyInput()
@@ -53,8 +56,8 @@ def main():
 		Although dispersed, this while loop can be split into three overall concepts:
 		Graphics Rendering, User Input, and Collision Detection.
 
-        Two of the three concepts are presented in the 'ingame == False' statement while
-        all three are presented in the 'ingame == True' statement.
+        Two of the three concepts are presented in the `ingame == False` statement while
+        all three are presented in the `ingame == True` statement.
 		"""
         #things happening during the out-of-game scenario
         if gvar.INGAME == False:
@@ -97,15 +100,21 @@ def main():
             elif gvar.COURSENUM == 6:
                 coursename = 'Stellar Highway'
             #load the source image representing the out-of-game frame the menu is on
-            gvar.WINDOW = pygame.transform.scale(pygame.image.load('images/menuframes/frame' + str(gvar.FRAME) + '.png'), (800,500))
+            menufilepath = Path('images/menuframes/frame')
+            menufile = str(menufilepath)+str(gvar.FRAME)+'.png'
+            gvar.WINDOW = pygame.transform.scale(pygame.image.load(menufile), (800,500))
             #create pygame surface to render car name text (black background with white text)
             cartitle = carfont.render(carname, True, WHITE, BLACK)
             #create pygame surface to render course name text (black background with white text)
             coursetitle = coursefont.render(coursename, True, WHITE, BLACK)
             #load the source image representing the car in the car select screen
-            carrender = pygame.transform.scale(pygame.image.load('images/player/front' + str(gvar.CARNUM) + '.png'), (gvar.CARXSCALE,gvar.CARYSCALE))
+            carfrontfilepath = Path('images/player/front')
+            carfrontfile = str(carfrontfilepath)+str(gvar.CARNUM)+'.png'
+            carrender = pygame.transform.scale(pygame.image.load(carfrontfile), (gvar.CARXSCALE,gvar.CARYSCALE))
             #load the source image representing a 'golden turbocharger', the talisman that is gained with each new completed course (acquire all six to unlock 4th car)
-            turborender = pygame.transform.scale(pygame.image.load('images/objects/goldenturbo.png'), (54,50))
+            turbofilepath = Path('images/objects/goldenturbo')
+            turbofile = str(turbofilepath)+'.png'
+            turborender = pygame.transform.scale(pygame.image.load(turbofile), (54,50))
             #display the out-of-game menu frame
             DISPLAY.blit(gvar.WINDOW, (0,0))
             #if on the car select screen render the respective car's image to give off feel of shuffling through garage, along with the number of golden turbos, and the car name
@@ -142,7 +151,9 @@ def main():
                 DISPLAY.blit(coursetitle, coursetitlebox)
             #if on the new car unlocked screen render the image of the new car
             elif gvar.FRAME == 6:
-                carrender = pygame.transform.scale(pygame.image.load('images/player/side4.png'), (570,156))
+                imagefilepath = Path('images/player/side4')
+                imagefile = str(imagefilepath)+'.png'
+                carrender = pygame.transform.scale(pygame.image.load(imagefile), (570,156))
                 DISPLAY.blit(carrender, (100,HEIGHT/2-50))
                 coursetitle = coursefont.render('x6', True, WHITE, BLACK)
                 coursetitlebox = coursetitle.get_rect()
@@ -217,11 +228,14 @@ def main():
                 gvar.INGAME = False
                 #play mission completed music
                 pygame.mixer.music.stop()
-                pygame.mixer.music.load('music/musicc.mp3')
+                musicfilepath = Path('music/musicc')
+                musicfile = str(musicfilepath)+'.mp3'
+                pygame.mixer.music.load(musicfile)
                 if gvar.PLAYMUSIC == True:
                     pygame.mixer.music.play(-1)
                 gvar.GAMEDATA = gvar.GAMEDATA[:(gvar.COURSENUM-1)] + '1' + gvar.GAMEDATA[(gvar.COURSENUM):]
-                file=open('data/gamedata/gamedata.txt','w+')
+                datafile = Path('data/gamedata/gamedata.txt')
+                file=open(datafile,'w+')
                 file.write(gvar.GAMEDATA)
                 file.close()
                 #win frame
@@ -232,7 +246,9 @@ def main():
                 gvar.INGAME = False
                 #play mission failed music
                 pygame.mixer.music.stop()
-                pygame.mixer.music.load('music/musicf.mp3')
+                musicfilepath = Path('music/musicf')
+                musicfile = str(musicfilepath)+'.mp3'
+                pygame.mixer.music.load(musicfile)
                 if gvar.PLAYMUSIC == True:
                     pygame.mixer.music.play(-1)
                 #lose frame

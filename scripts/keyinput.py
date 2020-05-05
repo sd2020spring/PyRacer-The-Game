@@ -1,4 +1,5 @@
 #import pygame and other necessary libraries
+from pathlib import Path
 import contextlib
 with contextlib.redirect_stdout(None):
     import pygame, sys
@@ -15,9 +16,12 @@ global gvar
 
 class KeyInput:
     """
-    The 'KeyInput' class is used to handle user input from the keyboard.
+    The `KeyInput` class is used to handle user input from the keyboard.
     """
     def read(self):
+        """
+		The `read()` handles the game's reactions to the user's input.
+		"""
         if gvar.INGAME == False:
             #user input
             for event in pygame.event.get():
@@ -56,13 +60,17 @@ class KeyInput:
                             gvar.FRAME = 3
                         #load the appropriate course background, create the game objects, reset car condition, start the mucis, and well, start the game!
                         elif gvar.FRAME == 3:
-                            gvar.WINDOW = pygame.transform.scale(pygame.image.load('images/backgrounds/bg' + str(gvar.COURSENUM) + '.png'), (1000,302))
+                            bgfilepath = Path('images/backgrounds/bg')
+                            bgfile = str(bgfilepath)+str(gvar.COURSENUM)+'.png'
+                            gvar.WINDOW = pygame.transform.scale(pygame.image.load(bgfile), (1000,302))
                             gvar.STREET = Road(gvar.COURSENUM)
                             gvar.RACER = Player(gvar.CARNUM, gvar.CARXSCALE/2, gvar.CARYSCALE/2, gvar.WIDTH/2, (7*gvar.HEIGHT/8-20-gvar.CARYADJUST/2))
                             gvar.LASERS = Laserbeam(gvar.COURSENUM)
                             gvar.CONDITION = 100
                             pygame.mixer.music.stop()
-                            pygame.mixer.music.load('music/music' + str(gvar.COURSENUM) + '.mp3')
+                            musicfilepath = Path('music/music')
+                            musicfile = str(musicfilepath)+str(gvar.COURSENUM)+'.mp3'
+                            pygame.mixer.music.load(musicfile)
                             if gvar.PLAYMUSIC == True:
                                 pygame.mixer.music.play(-1)
                             gvar.INGAME = True
@@ -71,7 +79,8 @@ class KeyInput:
                             #car unlocked scenario
                             if gvar.GAMEDATA.count('1') == 6:
                                 gvar.GAMEDATA = '1111111'
-                                file=open('data/gamedata/gamedata.txt','w+')
+                                datafile = Path('data/gamedata/gamedata.txt')
+                                file=open(datafile,'w+')
                                 file.write(gvar.GAMEDATA)
                                 file.close()
                                 #new car unlocked frame
@@ -79,13 +88,17 @@ class KeyInput:
                             #typical scenario
                             else:
                                 pygame.mixer.music.stop()
-                                pygame.mixer.music.load('music/music0.mp3')
+                                musicfilepath = Path('music/music0')
+                                musicfile = str(musicfilepath)+'.mp3'
+                                pygame.mixer.music.load(musicfile)
                                 pygame.mixer.music.play(-1)
                                 gvar.FRAME = 2
                         #go back to car select frame and reset music to default
                         elif gvar.FRAME == 5 or gvar.FRAME == 6:
                             pygame.mixer.music.stop()
-                            pygame.mixer.music.load('music/music0.mp3')
+                            musicfilepath = Path('music/music0')
+                            musicfile = str(musicfilepath)+'.mp3'
+                            pygame.mixer.music.load(musicfile)
                             pygame.mixer.music.play(-1)
                             gvar.FRAME = 2
                     #go back to the previous menu frame
@@ -99,7 +112,8 @@ class KeyInput:
                     if event.key == pygame.K_r:
                         gvar.CARNUM = 1
                         gvar.COURSENUM = 1
-                        file=open('data/gamedata/gamedata.txt','w+')
+                        datafile = Path('data/gamedata/gamedata.txt')
+                        file=open(datafile,'w+')
                         gvar.GAMEDATA = '0000000'
                         file.write(gvar.GAMEDATA)
                         file.close()
@@ -118,7 +132,9 @@ class KeyInput:
                     if event.key == pygame.K_l:
                         if gvar.GAMEDATA.count('1') >= 6:
                             pygame.mixer.music.stop()
-                            pygame.mixer.music.load('music/musicl.mp3')
+                            musicfilepath = Path('music/musicl')
+                            musicfile = str(musicfilepath)+'.mp3'
+                            pygame.mixer.music.load(musicfile)
                             pygame.mixer.music.play(1)
         else:
             for event in pygame.event.get():
