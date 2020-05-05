@@ -7,7 +7,7 @@ with contextlib.redirect_stdout(None):
 
 class GlobalVariables():
     """
-    The `GlobalVariables` handles the all the gloabl variables in the game.
+    The `GlobalVariables` handles the all the global variables in the game.
     """
     def __init__(self):
         """
