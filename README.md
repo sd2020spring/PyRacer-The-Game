@@ -1,6 +1,5 @@
 # PyRacer:   
-<img src="images/menuframes/frame1.png" alt="Game Title Screen" width="400" height="250"/>
-<img src="images/screenshots/mainmenu.png" alt="Main Menu Screenshot" width="400" height="250"/>   
+<img src="gifs/intro.gif" alt="Game Title Screen/Main Menu" width="400" height="250"/> <img src="gifs/coursedrive.gif" alt="Gameplay" width="400" height="250"/>   
 
 ## Running The Game:   
 PyRacer was developed with Python 3 and requires Python 3.4 or higher installed on your machine to play. In addition to this, cross-platform support is available but on Windows all the necessary libraries must be visible to the directory where the game files are kept.   
@@ -62,7 +61,7 @@ This car is the slowest but most durable.
 
 ## Under The Hood:   
 This game utilizes the PyGame library to accomplish several tasks; from rendering images and playing music to displaying the head-up display and handling user input. Used in accordance with object-oriented programming this game is brought to life.   
-<img src="images/screenshots/gameplay.png" alt="Gameplay Screenshot" width="400" height="250"/>   
+<img src="gifs/coursefinish.gif" alt="Gameplay -Mission Passed" width="400" height="250"/>   
 
 ### Classes & Methods:   
 There are five files and four classes that help create the game, with some handling the objects in the game and others handling the data the game uses.   
