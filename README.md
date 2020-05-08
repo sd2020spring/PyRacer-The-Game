@@ -136,3 +136,6 @@ Lil Uzi Vert; "Lotus"; Eternal Atake (Deluxe); WMG (on behalf of Atlantic Record
 Vivid Sound × Hybrid Colors: Sonic Colors Original Soundtrack; Wave Master.   
 
 *All other source files were either royalty-free or made in-house.*
+
+# System Diagram:   
+<img src="System Diagram.png" alt="System Diagram" width="960" height="540"/>
